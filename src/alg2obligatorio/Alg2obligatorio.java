@@ -21,7 +21,13 @@ public class Alg2obligatorio {
         System.out.println(s.inicializarSistema(0));
         System.out.println(s.registrarEmpresa("Mateu", "18 de julio", "Uruguay", "mauge58@gmail.com", "verde"));
         System.out.println(s.registrarEmpresa("Mateu", "18 de julio", "Uruguay", "mauge58@g", "verde"));
+        ABBEmpresa empresa = new ABBEmpresa();
+        empresa.insertar("Claudio", "la@clau.com", "Lazaro Gadea", "Uruguay", "Rojo");
+        empresa.insertar("Eugenia", "la@clau.com", "Lazaro Gadea", "Uruguay", "Rojo");
+        empresa.insertar("Alicia", "la@clau.com", "Lazaro Gadea", "Uruguay", "Rojo");
+        empresa.insertar("Benicio", "la@clau.com", "Lazaro Gadea", "Uruguay", "Rojo");
 
+        empresa.mostrar();
     }
     
 }

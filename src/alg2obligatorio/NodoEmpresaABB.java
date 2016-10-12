@@ -10,47 +10,82 @@ package alg2obligatorio;
  * @author Euge
  */
 public class NodoEmpresaABB {
-    private int dato;
-	private NodoEmpresaABB izq;
-	private NodoEmpresaABB der;
+    
+    private String nombre;
+    private String email;
+    private String direccion;
+    private String pais;
+    private String color;
+    private NodoEmpresaABB izq;
+    private NodoEmpresaABB der;
 
-	public NodoEmpresaABB(int dato, NodoEmpresaABB izq, NodoEmpresaABB der) {
-		this.dato = dato;
-		this.izq = izq;
-		this.der = der;
-	}
-	
-	public NodoEmpresaABB(int dato) {
-		this.dato = dato;
-	}
+    public NodoEmpresaABB(String nombre, String email, String direccion, String pais, String color) {
+        this.nombre = nombre;
+        this.email = email;
+        this.direccion = direccion;
+        this.pais = pais;
+        this.color = color;
+    }
 
-	public int getDato() {
-		return dato;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setDato(int dato) {
-		this.dato = dato;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public NodoEmpresaABB getIzq() {
-		return izq;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setIzq(NodoEmpresaABB izq) {
-		this.izq = izq;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public NodoEmpresaABB getDer() {
-		return der;
-	}
+    public String getDireccion() {
+        return direccion;
+    }
 
-	public void setDer(NodoEmpresaABB der) {
-		this.der = der;
-	}
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 
-	@Override
-	public String toString() {
-		return "NodoAB [dato=" + dato + ", izq=" + izq + ", der=" + der + "]";
-	}
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public NodoEmpresaABB getIzq() {
+        return izq;
+    }
+
+    public void setIzq(NodoEmpresaABB izq) {
+        this.izq = izq;
+    }
+
+    public NodoEmpresaABB getDer() {
+        return der;
+    }
+
+    public void setDer(NodoEmpresaABB der) {
+        this.der = der;
+    }
+
+    @Override
+    public String toString() {
+        return "NodoEmpresaABB{" + "nombre=" + nombre + ", email=" + email + ", direccion=" + direccion + ", pais=" + pais + ", color=" + color + '}';
+    }
 
 }

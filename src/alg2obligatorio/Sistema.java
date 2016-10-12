@@ -30,9 +30,11 @@ public class Sistema implements ISistema {
     public Retorno registrarEmpresa(String nombre, String direccion,
                     String pais, String email_contacto, String color) {
         // TODO Auto-generated method stub
+        NodoEmpresaABB nueva = new NodoEmpresaABB(nombre, email_contacto, direccion, pais, color);
         Matcher mat = pat.matcher(email_contacto);
         if(mat.matches())
             return new Retorno(Resultado.OK);
+        
         else
             return new Retorno(Resultado.ERROR_1);
     }
