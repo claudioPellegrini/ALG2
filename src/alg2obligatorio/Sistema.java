@@ -110,14 +110,32 @@ public class Sistema implements ISistema {
     @Override
     public Retorno eliminarTramo(Double coordXi, Double coordYi,
                     Double coordXf, Double coordYf) {
-        // TODO Auto-generated method stub
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        Punto aux = new Punto(coordXi,coordYi);
+        Punto aux2 = new Punto(coordXf,coordYf);        
+        if(!mapa.existePunto(aux)||!mapa.existePunto(aux2)){
+            return new Retorno(Resultado.ERROR_1);
+        }
+        if(!mapa.getMatAdy()[mapa.obtenerNomInt(aux)][mapa.obtenerNomInt(aux2)].isExiste())
+            return new Retorno(Resultado.ERROR_2);
+        mapa.eliminarTramo(aux, aux2);
+        return new Retorno(Resultado.OK);
     }
 
     @Override
     public Retorno eliminarPunto(Double coordX, Double coordY) {
         // TODO Auto-generated method stub
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        Punto aux =new Punto(coordX, coordY);
+        if(!mapa.existePunto(aux)) 
+            return new Retorno(Resultado.ERROR_1);
+        else{           
+            for(int i =0; i<mapa.getVertices().length;i++){
+                if(mapa.getMatAdy()[mapa.obtenerNomInt(aux)][mapa.obtenerNomInt(mapa.getVertices()[i])].isExiste()){
+                    mapa.eliminarTramo(aux, mapa.getVertices()[i]);
+                }           
+            }
+            mapa.eliminarPunto(aux);
+            return new Retorno(Resultado.OK);
+        }
     }
 
     @Override

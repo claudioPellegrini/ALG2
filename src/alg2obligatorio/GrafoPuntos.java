@@ -84,9 +84,9 @@ public class GrafoPuntos {
     public int obtenerNomInt(Punto origen) {
         // se cambia por HASH
         for(int i=0;i<tope;i++){
-                if(vertices[i].equals(origen)){
-                        return i;
-                }
+            if(vertices[i].equals(origen)){
+                return i;
+            }
 
         }
         return -1;
@@ -157,6 +157,7 @@ public class GrafoPuntos {
         return false;
     }
 
+    //Pre: unP existe
     public void insertarPunto(Punto unP) {
         if(cantV<=tope){
             vertices[cantV]=unP;
@@ -164,6 +165,13 @@ public class GrafoPuntos {
         }
     }
     
+    public void eliminarPunto(Punto unP) {
+        int pos = obtenerNomInt(unP);
+        if(pos!=-1){
+            vertices[pos]=null;
+            cantV--;   
+        }
+    }
     
     
 }
