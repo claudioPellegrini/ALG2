@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 public class Sistema implements ISistema {
     public ABBEmpresa empresas;
     public int cantPuntos;
+    private static enum TipoPunto {CIUDAD,DATACENTER};
     private Pattern pat = Pattern.compile("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$");
 
     @Override
@@ -29,14 +30,15 @@ public class Sistema implements ISistema {
     @Override
     public Retorno registrarEmpresa(String nombre, String direccion,
                     String pais, String email_contacto, String color) {
-        // TODO Auto-generated method stub
-        NodoEmpresaABB nueva = new NodoEmpresaABB(nombre, email_contacto, direccion, pais, color);
         Matcher mat = pat.matcher(email_contacto);
-        if(mat.matches())
-            return new Retorno(Resultado.OK);
-        
-        else
+        if(!mat.matches()){
             return new Retorno(Resultado.ERROR_1);
+        }
+        if(empresas.existe(nombre)) return new Retorno(Resultado.ERROR_2);
+        else{
+            empresas.insertar(nombre, email_contacto, direccion, pais, color);
+            return new Retorno(Resultado.OK);
+        }    
     }
 
     @Override

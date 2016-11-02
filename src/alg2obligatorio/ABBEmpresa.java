@@ -54,41 +54,41 @@ public class ABBEmpresa {
 			mostrarRec(nodo.getDer());
 		}
 	}
-//	public boolean pertenece(int x){
-//            return perteneceRec(x,raiz);
-//        }	
-//
-//    private boolean perteneceRec(int x, NodoEmpresaABB nodo) {
-//        if(nodo==null)
-//            return false;
-//        else{
-//            if(nodo.getDato()==x)
-//                return true;
-//            else{
-//                if(x<nodo.getDato())
-//                    return perteneceRec(x,nodo.getIzq());
-//                else
-//                    return perteneceRec(x,nodo.getDer());
-//            }
-//        }
-//    }
-//    public boolean existe(String nom){
-//            return existeRec(nom,raiz);
-//        }	
-//    private boolean existeRec(String x, NodoEmpresaABB nodo) {
-//        if(nodo==null)
-//            return false;
-//        else{
-//            if(nodo.getDato()==x)
-//                return true;
-//            else{
-//                if(x<nodo.getDato())
-//                    return perteneceRec(x,nodo.getIzq());
-//                else
-//                    return perteneceRec(x,nodo.getDer());
-//            }
-//        }
-//    }
+	public boolean pertenece(String x){
+            return perteneceRec(x,raiz);
+        }	
+
+    private boolean perteneceRec(String x, NodoEmpresaABB nodo) {
+        if(nodo==null)
+            return false;
+        else{
+            if(nodo.getNombre().equals(x))
+                return true;
+            else{
+                if(x.compareTo(nodo.getNombre())<0)
+                    return perteneceRec(x,nodo.getIzq());
+                else
+                    return perteneceRec(x,nodo.getDer());
+            }
+        }
+    }
+    public boolean existe(String nom){
+            return existeRec(nom,raiz);
+        }	
+    private boolean existeRec(String x, NodoEmpresaABB nodo) {
+        if(nodo==null)
+            return false;
+        else{
+            if(nodo.getNombre().equals(x))
+                return true;
+            else{
+                if(x.compareTo(nodo.getNombre())<0)
+                    return perteneceRec(x,nodo.getIzq());
+                else
+                    return perteneceRec(x,nodo.getDer());
+            }
+        }
+    }
 //    
 //    public void borrarMin(){
 //        if(raiz!=null){
