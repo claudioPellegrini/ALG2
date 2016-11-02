@@ -10,6 +10,9 @@ package alg2obligatorio;
  * @author Euge
  */
 public class Punto {
+    
+    //Ver si lo que tendriamos que tener es un grafo de Puntos y que las ciudades y los dc se asocien a ese grafo... ver
+    
     private Double coordX;
     private Double coordY;
 

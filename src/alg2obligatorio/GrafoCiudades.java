@@ -164,6 +164,13 @@ public class GrafoCiudades {
         int f=obtenerNomInt(destino);
         this.getMatAdy()[i][f]=new ArcoCiudad(peso);
         this.getMatAdy()[f][i]=new ArcoCiudad(peso);
-    }	
+    }
+    public void eliminarTramo(Ciudad origen, Ciudad destino){
+        //ver si no hay que controlar algo antes de eliminar el tramo....
+        int i=obtenerNomInt(origen);
+        int f=obtenerNomInt(destino);
+        this.getMatAdy()[i][f]=new ArcoCiudad();
+        this.getMatAdy()[f][i]=new ArcoCiudad();
+    }
 	
 }
