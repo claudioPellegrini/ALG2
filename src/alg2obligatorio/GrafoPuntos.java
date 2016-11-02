@@ -20,14 +20,14 @@ public class GrafoPuntos {
 
     //version para obli
     public GrafoPuntos(int tope) {
-        this.matAdy = new ArcoPunto[tope][tope];
+        crearMatriz(tope);
         this.vertices = new Punto[tope];
 
         this.tope = tope;
         this.cantV=0;
     }
         
-	
+    
     public int dijkstra (Punto origen, Punto destino){
         //defino los vectores
         int[] distancia = new int[tope];
@@ -98,6 +98,16 @@ public class GrafoPuntos {
 
     public void setMatAdy(ArcoPunto[][] matAdy) {
         this.matAdy = matAdy;
+    }
+    private void crearMatriz(int tope){
+        this.setMatAdy(new ArcoPunto[tope][tope]);
+            for (int i=0; i < tope; i++)
+            {
+                for (int j=0; j<tope; j++)
+                {
+                    getMatAdy()[i][j] = new ArcoPunto();
+                }
+            }
     }
 
     public Punto[] getVertices() {

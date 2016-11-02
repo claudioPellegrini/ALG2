@@ -101,10 +101,10 @@ public class Sistema implements ISistema {
         if(!mapa.existePunto(aux)||!mapa.existePunto(aux2)){
             return new Retorno(Resultado.ERROR_2);
         }
-        if(!mapa.getMatAdy()[mapa.obtenerNomInt(aux)][mapa.obtenerNomInt(aux2)].equals(new ArcoPunto()))
+        if(mapa.getMatAdy()[mapa.obtenerNomInt(aux)][mapa.obtenerNomInt(aux2)].isExiste())
             return new Retorno(Resultado.ERROR_3);
         mapa.registrarTramo(aux, aux2, peso);
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        return new Retorno(Resultado.OK);
     }
 
     @Override
