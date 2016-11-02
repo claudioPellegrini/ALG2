@@ -3,7 +3,7 @@ package alg2obligatorio;
 public class GrafoCiudades {
     private ArcoCiudad [][] matAdy;
     //version para obli 
-    private Punto [] vertices; //despues lo vamos a cambiar por Punto (para el obli)
+    private Ciudad [] vertices; //despues lo vamos a cambiar por Punto (para el obli)
     
     private int cantV;
     private int tope; // maxima cantidad de puntos que va a tener el grafo
@@ -11,7 +11,7 @@ public class GrafoCiudades {
     //version para obli
     public GrafoCiudades(int tope) {
         this.matAdy = new ArcoCiudad[tope][tope];
-        this.vertices = new Punto[tope];
+        this.vertices = new Ciudad[tope];
 
         this.tope = tope;
         this.cantV=0;
@@ -64,7 +64,7 @@ public class GrafoCiudades {
 //		}
 //		matAdy = aux;
 //	}
-    public int dijkstra (Punto origen, Punto destino){
+    public int dijkstra (Ciudad origen, Ciudad destino){
         //defino los vectores
         int[] distancia = new int[tope];
         boolean[] visitados = new boolean[tope];//queda por defecto en false
@@ -117,7 +117,7 @@ public class GrafoCiudades {
         }       
         return distancia[obtenerNomInt(destino)];
     }
-    private int obtenerNomInt(Punto origen) {
+    private int obtenerNomInt(Ciudad origen) {
             // TODO Auto-generated method stub
             for(int i=0;i<tope;i++){
                     if(vertices[i].equals(origen)){
@@ -140,7 +140,7 @@ public class GrafoCiudades {
         return vertices;
     }
 
-    public void setVertices(Punto[] vertices) {
+    public void setVertices(Ciudad[] vertices) {
         this.vertices = vertices;
     }
 
@@ -159,7 +159,7 @@ public class GrafoCiudades {
     public void setTope(int tope) {
         this.tope = tope;
     }
-    public void registrarTramo(Punto origen, Punto destino, int peso){
+    public void registrarTramo(Ciudad origen, Ciudad destino, int peso){
         int i=obtenerNomInt(origen);
         int f=obtenerNomInt(destino);
         this.getMatAdy()[i][f]=new ArcoCiudad(peso);
