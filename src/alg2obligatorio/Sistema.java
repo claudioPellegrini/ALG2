@@ -1,6 +1,7 @@
 package alg2obligatorio;
 
 import alg2obligatorio.Retorno.Resultado;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,6 +9,10 @@ import java.util.regex.Pattern;
 public class Sistema implements ISistema {
     public ABBEmpresa empresas;
     public int cantPuntos;
+    public int contadorPuntos;
+    public GrafoPuntos mapa;
+    public ArrayList<Ciudad> ciudades;
+    public ArrayList<DC> datacenters;
     private static enum TipoPunto {CIUDAD,DATACENTER};
     private Pattern pat = Pattern.compile("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$");
 
@@ -17,7 +22,11 @@ public class Sistema implements ISistema {
             return new Retorno(Resultado.ERROR_1);
         else{ 
             this.cantPuntos=cantPuntos;
+            contadorPuntos=0;
             empresas= new ABBEmpresa();
+            mapa = new GrafoPuntos(cantPuntos);
+            ciudades=new ArrayList<>();
+            datacenters= new ArrayList<>();
             return new Retorno(Resultado.OK);}
     }
 
@@ -43,21 +52,58 @@ public class Sistema implements ISistema {
 
     @Override
     public Retorno registrarCiudad(String nombre, Double coordX, Double coordY) {
-        // TODO Auto-generated method stub
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        if(contadorPuntos<cantPuntos){            
+            Punto unP = new Punto(coordX,coordY);
+            if(mapa.existePunto(unP)){
+                return new Retorno(Resultado.ERROR_2);
+            }else{                
+                mapa.insertarPunto(unP);                
+                ciudades.add(new Ciudad(nombre,unP));
+                contadorPuntos++;
+                return new Retorno(Resultado.OK);
+            }
+            
+        }else{
+            return new Retorno(Resultado.ERROR_1);
+        }        
     }
 
     @Override
     public Retorno registrarDC(String nombre, Double coordX, Double coordY,
                     String empresa, int capacidadCPUenHoras, int costoCPUporHora) {
-        // TODO Auto-generated method stub
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        if(contadorPuntos<cantPuntos){     
+            if(capacidadCPUenHoras<=0) return new Retorno(Resultado.ERROR_2);
+            Punto unP = new Punto(coordX,coordY);
+            if(mapa.existePunto(unP)){
+                return new Retorno(Resultado.ERROR_3);
+            }else{                
+                mapa.insertarPunto(unP);                   
+                NodoEmpresaABB emp = empresas.Buscar(empresas.getRaiz(), empresa);
+                if(emp==null){
+                    return new Retorno(Resultado.ERROR_4);
+                }else{
+                    datacenters.add(new DC(nombre, emp, capacidadCPUenHoras, capacidadCPUenHoras, unP));
+                    contadorPuntos++;
+                    return new Retorno(Resultado.OK);
+                }                
+            }            
+        }else{
+            return new Retorno(Resultado.ERROR_1);
+        }        
     }
 
     @Override
     public Retorno registrarTramo(Double coordXi, Double coordYi,
                     Double coordXf, Double coordYf, int peso) {
-        // TODO Auto-generated method stub
+        if(peso<=0) return new Retorno(Resultado.ERROR_1);
+        Punto aux = new Punto(coordXi,coordYi);
+        Punto aux2 = new Punto(coordXf,coordYf);        
+        if(!mapa.existePunto(aux)||!mapa.existePunto(aux2)){
+            return new Retorno(Resultado.ERROR_2);
+        }
+        if(!mapa.getMatAdy()[mapa.obtenerNomInt(aux)][mapa.obtenerNomInt(aux2)].equals(new ArcoPunto()))
+            return new Retorno(Resultado.ERROR_3);
+        mapa.registrarTramo(aux, aux2, peso);
         return new Retorno(Resultado.NO_IMPLEMENTADA);
     }
 

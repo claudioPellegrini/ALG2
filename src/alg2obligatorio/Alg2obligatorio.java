@@ -32,6 +32,14 @@ public class Alg2obligatorio {
         System.out.println("No existe Gabriel "+empresa.existe("Gabriel"));
 
         empresa.mostrar();
+        
+        
+        System.out.println(s.registrarCiudad("Montevideo", -34.91, -56.17));
+        System.out.println(s.registrarCiudad("City", -34.91, -56.17));
+        System.out.println(s.registrarCiudad("Canelones", -44.51, -66.37));
+        
+        
+        System.out.println(s.registrarDC("ORT", -34.66, -56.17, "Mateu", 500, 100));
     }
     
 }

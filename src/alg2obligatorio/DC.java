@@ -9,14 +9,15 @@ package alg2obligatorio;
  *
  * @author Euge
  */
-public class DC extends Punto{
+public class DC {
     private String nombre;
     private NodoEmpresaABB empresa;
+    private Punto misCoord;
     private int capacidadCPUenHoras;
     private int capacidadCPUporHora;
 
-    public DC(String nombre, NodoEmpresaABB empresa, int capacidadCPUenHoras, int capacidadCPUporHora, Double coordX, Double coordY) {
-        super(coordX, coordY);
+    public DC(String nombre, NodoEmpresaABB empresa, int capacidadCPUenHoras, int capacidadCPUporHora, Punto p) {
+        misCoord=p;
         this.nombre = nombre;
         this.empresa = empresa;
         this.capacidadCPUenHoras = capacidadCPUenHoras;
@@ -54,6 +55,15 @@ public class DC extends Punto{
     public void setCapacidadCPUporHora(int capacidadCPUporHora) {
         this.capacidadCPUporHora = capacidadCPUporHora;
     }
+
+    public Punto getMisCoord() {
+        return misCoord;
+    }
+
+    public void setMisCoord(Punto misCoord) {
+        this.misCoord = misCoord;
+    }
+    
     
     
 }

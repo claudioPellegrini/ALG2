@@ -1,5 +1,5 @@
 package alg2obligatorio;
-public class ArcoCiudad {
+public class ArcoPunto {
 	private boolean existe;
 	private int peso;
 	
@@ -15,11 +15,11 @@ public class ArcoCiudad {
 	public void setPeso(int peso) {
 		this.peso = peso;
 	}
-	public ArcoCiudad( int peso) {
+	public ArcoPunto( int peso) {
 		this.existe = true;
 		this.peso = peso;
 	}
-	public ArcoCiudad() {
+	public ArcoPunto() {
 //		this.existe = false;
 //		this.peso = 0;
 	}

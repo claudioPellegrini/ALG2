@@ -89,6 +89,18 @@ public class ABBEmpresa {
             }
         }
     }
+    
+    public NodoEmpresaABB Buscar(NodoEmpresaABB nodo, String nom){
+        if(nodo!=null){
+            if(nodo.getNombre().compareTo(nom)==0)
+                return nodo;
+            else if(nodo.getNombre().compareTo(nom)<0)
+                return Buscar(nodo.getDer(), nom);
+            else if(nodo.getNombre().compareTo(nom)>0)
+                return Buscar(nodo.getIzq(), nom);
+        }
+        return null;
+    }
 //    
 //    public void borrarMin(){
 //        if(raiz!=null){

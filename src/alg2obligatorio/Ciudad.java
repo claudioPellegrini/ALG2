@@ -9,12 +9,13 @@ package alg2obligatorio;
  *
  * @author Euge
  */
-public class Ciudad extends Punto {
-    //private Punto misCoord;
+public class Ciudad {
+    private Punto misCoord;
     private String nombre;
+    
 
-    public Ciudad(String nombre, Double coordX, Double coordY) {
-        super(coordX, coordY);
+    public Ciudad(String nombre, Punto p) {
+        misCoord=p;
         this.nombre = nombre;
     }
 
@@ -24,6 +25,14 @@ public class Ciudad extends Punto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Punto getMisCoord() {
+        return misCoord;
+    }
+
+    public void setMisCoord(Punto misCoord) {
+        this.misCoord = misCoord;
     }
 
    

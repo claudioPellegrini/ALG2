@@ -5,6 +5,8 @@
  */
 package alg2obligatorio;
 
+import java.util.Objects;
+
 /**
  *
  * @author Euge
@@ -35,6 +37,24 @@ public class Punto {
 
     public void setCoordY(Double coordY) {
         this.coordY = coordY;
+    }
+
+    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Punto other = (Punto) obj;
+        if (!Objects.equals(this.coordX, other.coordX)||!Objects.equals(this.coordY, other.coordY)) {
+            return false;
+        }
+       
+        return true;
     }
     
 }
