@@ -43,7 +43,7 @@ public class Alg2obligatorio {
         System.out.println(s.registrarDC("ORT", -34.66, -56.17, "Mateu", 500, 100));
         System.out.println(s.registrarTramo(-34.91, -56.17,-44.51, -66.37,100));
         System.out.println(s.registrarTramo(-34.66, -56.17,-44.51, -66.37,200));//tramo ort canelones
-//        System.out.println(s.eliminarTramo(-34.91, -56.17,-44.51, -67.37));
+        System.out.println(s.eliminarTramo(-34.91, -56.17,-44.51, -67.37));
 //        System.out.println(s.eliminarTramo(-34.91, -56.17,-44.51, -66.37));
         
         System.out.println(s.eliminarPunto(-34.66, -56.17));

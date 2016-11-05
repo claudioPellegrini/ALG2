@@ -65,5 +65,13 @@ public class DC {
     }
     
     
-    
+    public boolean equals(DC dc) {
+        if (dc == null) {
+            return false;
+        }
+        if (getClass() != dc.getClass()) {
+            return false;
+        }
+        return dc.getMisCoord().equals(dc.getMisCoord());
+    }
 }

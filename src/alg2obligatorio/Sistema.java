@@ -101,7 +101,7 @@ public class Sistema implements ISistema {
         if(!mapa.existePunto(aux)||!mapa.existePunto(aux2)){
             return new Retorno(Resultado.ERROR_2);
         }
-        if(mapa.getMatAdy()[mapa.obtenerNomInt(aux)][mapa.obtenerNomInt(aux2)].isExiste())
+        if(mapa.existeTramo(aux, aux2))
             return new Retorno(Resultado.ERROR_3);
         mapa.registrarTramo(aux, aux2, peso);
         return new Retorno(Resultado.OK);
@@ -115,7 +115,7 @@ public class Sistema implements ISistema {
         if(!mapa.existePunto(aux)||!mapa.existePunto(aux2)){
             return new Retorno(Resultado.ERROR_1);
         }
-        if(!mapa.getMatAdy()[mapa.obtenerNomInt(aux)][mapa.obtenerNomInt(aux2)].isExiste())
+        if(!mapa.existeTramo(aux, aux2))
             return new Retorno(Resultado.ERROR_2);
         mapa.eliminarTramo(aux, aux2);
         return new Retorno(Resultado.OK);
@@ -124,16 +124,28 @@ public class Sistema implements ISistema {
     @Override
     public Retorno eliminarPunto(Double coordX, Double coordY) {
         // TODO Auto-generated method stub
+        //A LA CIUDAD O AL DATACENTER HAY QUE ELIMINARLA TAMBIEN
         Punto aux =new Punto(coordX, coordY);
         if(!mapa.existePunto(aux)) 
             return new Retorno(Resultado.ERROR_1);
         else{           
-            for(int i =0; i<mapa.getVertices().length;i++){
-                if(mapa.getMatAdy()[mapa.obtenerNomInt(aux)][mapa.obtenerNomInt(mapa.getVertices()[i])].isExiste()){
+            int hasta=mapa.getVertices().length;
+            for(int i =0; i<hasta;i++){
+                if(mapa.existeTramo(aux, mapa.getVertices()[i])){
                     mapa.eliminarTramo(aux, mapa.getVertices()[i]);
                 }           
             }
-            mapa.eliminarPunto(aux);
+            
+            for(Ciudad c: ciudades){
+                if(c.getMisCoord().equals(aux))
+                    ciudades.remove(c);
+            }
+            for(DC dc: datacenters){
+                if(dc.getMisCoord().equals(datacenters))
+                    datacenters.remove(dc);
+            }
+//                        mapa.eliminarPunto(aux);
+
             return new Retorno(Resultado.OK);
         }
     }

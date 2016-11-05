@@ -5,6 +5,8 @@
  */
 package alg2obligatorio;
 
+import java.util.Objects;
+
 /**
  *
  * @author Euge
@@ -35,6 +37,23 @@ public class Ciudad {
         this.misCoord = misCoord;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
    
+    public boolean equals(Ciudad c) {
+        if (c == null) {
+            return false;
+        }
+        if (getClass() != c.getClass()) {
+            return false;
+        }
+        return c.getMisCoord().equals(c.getMisCoord());
+    }
+
+    
     
 }

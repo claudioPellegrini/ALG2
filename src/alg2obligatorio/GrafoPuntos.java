@@ -172,6 +172,8 @@ public class GrafoPuntos {
             cantV--;   
         }
     }
-    
+    public boolean existeTramo(Punto i, Punto f){
+        return matAdy[obtenerNomInt(i)][obtenerNomInt(f)].isExiste();
+    }
     
 }
