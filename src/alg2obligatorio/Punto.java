@@ -56,5 +56,11 @@ public class Punto {
        
         return true;
     }
+
+    @Override
+    public String toString() {
+        return coordX + "," + coordY;
+    }
+    
     
 }
