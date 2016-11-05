@@ -5,6 +5,7 @@
  */
 package alg2obligatorio;
 
+
 /**
  *
  * @author Claudio Pellegrini
@@ -178,4 +179,5 @@ public class GrafoPuntos {
         else return false;
     }
     
+
 }
