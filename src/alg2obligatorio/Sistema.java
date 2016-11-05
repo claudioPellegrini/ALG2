@@ -162,17 +162,13 @@ public class Sistema implements ISistema {
         int j=1;
         for(int i=0;i<ciudades.size();i++){
             j=i+1;
-            url+="&markers=color:"+color+"%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord().toString();
-            //j=i;
-            
+            url+="&markers=color:"+color+"%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord().toString();   
         }
         for(int p=0;p<datacenters.size();p++){
             j++;
             url+="&markers=color:"+datacenters.get(p).getEmpresa().getColor().toString()+"%7Clabel:"+j+"%7C"+datacenters.get(p).getMisCoord().toString();
             
-        }
-        
-         
+        }      
         url+="&sensor=false";        
         try {            
             Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " +"http://"+url);
@@ -180,7 +176,7 @@ public class Sistema implements ISistema {
             Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
         }
        
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        return new Retorno(Resultado.OK);
     }
 
     @Override
