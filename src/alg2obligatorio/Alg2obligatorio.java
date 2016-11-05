@@ -69,7 +69,7 @@ public class Alg2obligatorio {
 ////            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " +"http://"+url);            
 //       
 //        
-
+            System.out.println(s.listadoEmpresas());
     }
     
 }

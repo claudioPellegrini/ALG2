@@ -195,7 +195,9 @@ public class Sistema implements ISistema {
     @Override
     public Retorno listadoEmpresas() {
         // TODO Auto-generated method stub
-            return new Retorno(Resultado.NO_IMPLEMENTADA);
+        String ret=empresas.mostrar();
+        
+            return new Retorno(Resultado.OK, ret,0);
     }
 
 

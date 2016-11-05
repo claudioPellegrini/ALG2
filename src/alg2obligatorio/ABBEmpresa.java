@@ -42,17 +42,20 @@ public class ABBEmpresa {
             }
 	}
 	
-	public void mostrar(){
-		mostrarRec(raiz);
+	public String mostrar(){
+            return mostrarRec(raiz);
 	}
 
-	private void mostrarRec(NodoEmpresaABB nodo) {
-		if(nodo != null)
-		{
-			mostrarRec(nodo.getIzq());
-			System.out.println(nodo.getNombre() + " ");
-			mostrarRec(nodo.getDer());
-		}
+	private String mostrarRec(NodoEmpresaABB nodo) {
+            
+            String ret=new String();
+            if(nodo != null)
+            {
+                ret+=mostrarRec(nodo.getIzq());
+                ret+=nodo.toString()+"|";
+                ret+=mostrarRec(nodo.getDer());
+            }
+            return ret;
 	}
 	public boolean pertenece(String x){
             return perteneceRec(x,raiz);
