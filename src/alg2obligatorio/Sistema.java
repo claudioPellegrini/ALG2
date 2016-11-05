@@ -144,7 +144,7 @@ public class Sistema implements ISistema {
                 if(dc.getMisCoord().equals(datacenters))
                     datacenters.remove(dc);
             }
-//                        mapa.eliminarPunto(aux);
+            mapa.eliminarPunto(aux);
 
             return new Retorno(Resultado.OK);
         }
