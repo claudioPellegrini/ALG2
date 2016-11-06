@@ -14,14 +14,16 @@ public class DC {
     private NodoEmpresaABB empresa;
     private Punto misCoord;
     private int capacidadCPUenHoras;
-    private int capacidadCPUporHora;
+    private int costoCPUporHora;
+    private boolean ocupado;
 
-    public DC(String nombre, NodoEmpresaABB empresa, int capacidadCPUenHoras, int capacidadCPUporHora, Punto p) {
+    public DC(String nombre, NodoEmpresaABB empresa, int capacidadCPUenHoras, int costoCPUporHora, Punto p) {
         misCoord=p;
         this.nombre = nombre;
         this.empresa = empresa;
         this.capacidadCPUenHoras = capacidadCPUenHoras;
-        this.capacidadCPUporHora = capacidadCPUporHora;
+        this.costoCPUporHora = costoCPUporHora;
+        this.ocupado=false;
     }
 
     public String getNombre() {
@@ -48,12 +50,12 @@ public class DC {
         this.capacidadCPUenHoras = capacidadCPUenHoras;
     }
 
-    public int getCapacidadCPUporHora() {
-        return capacidadCPUporHora;
+    public int getCostoCPUporHora() {
+        return costoCPUporHora;
     }
 
-    public void setCapacidadCPUporHora(int capacidadCPUporHora) {
-        this.capacidadCPUporHora = capacidadCPUporHora;
+    public void setCostoCPUporHora(int costoCPUporHora) {
+        this.costoCPUporHora = costoCPUporHora;
     }
 
     public Punto getMisCoord() {
@@ -62,6 +64,14 @@ public class DC {
 
     public void setMisCoord(Punto misCoord) {
         this.misCoord = misCoord;
+    }
+
+    public boolean isOcupado() {
+        return ocupado;
+    }
+
+    public void setOcupado(boolean ocupado) {
+        this.ocupado = ocupado;
     }
     
     
