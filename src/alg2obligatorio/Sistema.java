@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 
 
 public class Sistema implements ISistema {
-    public ABBEmpresa empresas;
-    public int cantPuntos;
-    public int contadorPuntos;
-    public GrafoPuntos mapa;
-    public ArrayList<Ciudad> ciudades;
-    public ArrayList<DC> datacenters;
+    private ABBEmpresa empresas;
+    private int cantPuntos;
+    private int contadorPuntos;
+    private GrafoPuntos mapa;
+    private ArrayList<Ciudad> ciudades;
+    private ArrayList<DC> datacenters;
     public enum TipoPunto {CIUDAD,DATACENTER};
     private Pattern pat = Pattern.compile("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$");
 
@@ -177,6 +177,7 @@ public class Sistema implements ISistema {
                     int esfuerzoCPUrequeridoEnHoras) {
             // TODO Auto-generated method stub
         if(!mapa.existePunto(new Punto(coordX,coordY)))return new Retorno(Resultado.ERROR_1);
+        
         return new Retorno(Resultado.NO_IMPLEMENTADA);
     }
 
@@ -190,8 +191,7 @@ public class Sistema implements ISistema {
     public Retorno listadoEmpresas() {
         // TODO Auto-generated method stub
         String ret=empresas.mostrar();
-        
-            return new Retorno(Resultado.OK, ret,0);
+        return new Retorno(Resultado.OK, ret,0);
     }
 
 
