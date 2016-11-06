@@ -18,6 +18,7 @@ public class Ciudad {
 
     public Ciudad(String nombre, Punto p) {
         misCoord=p;
+        
         this.nombre = nombre;
     }
 

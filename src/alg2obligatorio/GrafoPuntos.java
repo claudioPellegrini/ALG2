@@ -5,6 +5,8 @@
  */
 package alg2obligatorio;
 
+import alg2obligatorio.Sistema.TipoPunto;
+
 
 /**
  *
@@ -159,9 +161,10 @@ public class GrafoPuntos {
     }
 
     //Pre: unP existe
-    public void insertarPunto(Punto unP) {
+    public void insertarPunto(Punto unP,TipoPunto t) {
         if(cantV<=tope){
             vertices[cantV]=unP;
+            unP.setTipo(t);
             cantV++;
         }
     }

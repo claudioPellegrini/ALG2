@@ -84,4 +84,7 @@ public class DC {
         }
         return dc.getMisCoord().equals(dc.getMisCoord());
     }
+    public int costoProceso(){
+        return this.capacidadCPUenHoras*this.costoCPUporHora;
+    }
 }

@@ -16,7 +16,7 @@ public class Sistema implements ISistema {
     public GrafoPuntos mapa;
     public ArrayList<Ciudad> ciudades;
     public ArrayList<DC> datacenters;
-    private static enum TipoPunto {CIUDAD,DATACENTER};
+    public enum TipoPunto {CIUDAD,DATACENTER};
     private Pattern pat = Pattern.compile("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$");
 
     @Override
@@ -60,12 +60,11 @@ public class Sistema implements ISistema {
             if(mapa.existePunto(unP)){
                 return new Retorno(Resultado.ERROR_2);
             }else{                
-                mapa.insertarPunto(unP);                
+                mapa.insertarPunto(unP,TipoPunto.CIUDAD);                
                 ciudades.add(new Ciudad(nombre,unP));
                 contadorPuntos++;
                 return new Retorno(Resultado.OK);
-            }
-            
+            }            
         }else{
             return new Retorno(Resultado.ERROR_1);
         }        
@@ -80,7 +79,7 @@ public class Sistema implements ISistema {
             if(mapa.existePunto(unP)){
                 return new Retorno(Resultado.ERROR_3);
             }else{                
-                mapa.insertarPunto(unP);                   
+                mapa.insertarPunto(unP,TipoPunto.DATACENTER);                   
                 NodoEmpresaABB emp = empresas.Buscar(empresas.getRaiz(), empresa);
                 if(emp==null){
                     return new Retorno(Resultado.ERROR_4);
@@ -137,8 +136,7 @@ public class Sistema implements ISistema {
                 if(mapa.existeTramo(aux, mapa.getVertices()[i])){
                     mapa.eliminarTramo(aux, mapa.getVertices()[i]);
                 }           
-            }
-            
+            }            
             for(Ciudad c: ciudades){
                 if(c.getMisCoord().equals(aux))
                     ciudades.remove(c);
@@ -148,7 +146,6 @@ public class Sistema implements ISistema {
                     datacenters.remove(dc);
             }
             mapa.eliminarPunto(aux);
-
             return new Retorno(Resultado.OK);
         }
     }
@@ -157,25 +154,21 @@ public class Sistema implements ISistema {
     public Retorno mapaEstado() {
         // TODO Auto-generated method stub
         String url = "//maps.googleapis.com/maps/api/staticmap?center=Montevideo,Uruguay&zoom=13&size=1200x600&maptype=roadmap";
-        String color="yellow";
-        String coord="-34.90,-56.16";
         int j=1;
         for(int i=0;i<ciudades.size();i++){
             j=i+1;
-            url+="&markers=color:"+color+"%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord().toString();   
+            url+="&markers=color:yellow%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord().toString();   
         }
         for(int p=0;p<datacenters.size();p++){
             j++;
-            url+="&markers=color:"+datacenters.get(p).getEmpresa().getColor().toString()+"%7Clabel:"+j+"%7C"+datacenters.get(p).getMisCoord().toString();
-            
+            url+="&markers=color:"+datacenters.get(p).getEmpresa().getColor().toString()+"%7Clabel:"+j+"%7C"+datacenters.get(p).getMisCoord().toString();            
         }      
         url+="&sensor=false";        
         try {            
             Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " +"http://"+url);
         } catch (IOException ex) {
             Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+        }       
         return new Retorno(Resultado.OK);
     }
 
@@ -183,7 +176,8 @@ public class Sistema implements ISistema {
     public Retorno procesarInformacion(Double coordX, Double coordY,
                     int esfuerzoCPUrequeridoEnHoras) {
             // TODO Auto-generated method stub
-            return new Retorno(Resultado.NO_IMPLEMENTADA);
+        if(!mapa.existePunto(new Punto(coordX,coordY)))return new Retorno(Resultado.ERROR_1);
+        return new Retorno(Resultado.NO_IMPLEMENTADA);
     }
 
     @Override
