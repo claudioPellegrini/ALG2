@@ -5,6 +5,9 @@
  */
 package alg2obligatorio;
 
+import alg2obligatorio.Sistema.TipoPunto;
+
+
 /**
  *
  * @author Claudio Pellegrini
@@ -158,9 +161,10 @@ public class GrafoPuntos {
     }
 
     //Pre: unP existe
-    public void insertarPunto(Punto unP) {
+    public void insertarPunto(Punto unP,TipoPunto t) {
         if(cantV<=tope){
             vertices[cantV]=unP;
+            unP.setTipo(t);
             cantV++;
         }
     }
@@ -172,6 +176,11 @@ public class GrafoPuntos {
             cantV--;   
         }
     }
+    public boolean existeTramo(Punto i, Punto f){
+        if(f!=null)
+            return matAdy[obtenerNomInt(i)][obtenerNomInt(f)].isExiste();
+        else return false;
+    }
     
-    
+
 }

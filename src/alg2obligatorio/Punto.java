@@ -5,6 +5,7 @@
  */
 package alg2obligatorio;
 
+import alg2obligatorio.Sistema.TipoPunto;
 import java.util.Objects;
 
 /**
@@ -13,11 +14,10 @@ import java.util.Objects;
  */
 public class Punto {
     
-    //Ver si lo que tendriamos que tener es un grafo de Puntos y que las ciudades y los dc se asocien a ese grafo... ver
-    
     private Double coordX;
     private Double coordY;
-
+    private TipoPunto tipo;
+    
     public Punto(Double coordX, Double coordY) {
         this.coordX = coordX;
         this.coordY = coordY;
@@ -39,6 +39,14 @@ public class Punto {
         this.coordY = coordY;
     }
 
+    public TipoPunto getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoPunto tipo) {
+        this.tipo = tipo;
+    }
+
     
 
     @Override
@@ -56,5 +64,11 @@ public class Punto {
        
         return true;
     }
+
+    @Override
+    public String toString() {
+        return coordX + "," + coordY;
+    }
+    
     
 }

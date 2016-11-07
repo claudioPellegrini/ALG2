@@ -85,7 +85,7 @@ public class NodoEmpresaABB {
 
     @Override
     public String toString() {
-        return "NodoEmpresaABB{" + "nombre=" + nombre + ", email=" + email + ", direccion=" + direccion + ", pais=" + pais + ", color=" + color + '}';
+        return nombre+";" +email;
     }
 
 }
