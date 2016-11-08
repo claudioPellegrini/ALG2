@@ -128,6 +128,7 @@ public class Sistema implements ISistema {
         // TODO Auto-generated method stub
         //A LA CIUDAD O AL DATACENTER HAY QUE ELIMINARLA TAMBIEN
         Punto aux =new Punto(coordX, coordY);
+        boolean encontre=true;
         if(!mapa.existePunto(aux)) 
             return new Retorno(Resultado.ERROR_1);
         else{           
@@ -136,14 +137,21 @@ public class Sistema implements ISistema {
                 if(mapa.existeTramo(aux, mapa.getVertices()[i])){
                     mapa.eliminarTramo(aux, mapa.getVertices()[i]);
                 }           
-            }            
-            for(Ciudad c: ciudades){
-                if(c.getMisCoord().equals(aux))
-                    ciudades.remove(c);
             }
-            for(DC dc: datacenters){
-                if(dc.getMisCoord().equals(datacenters))
-                    datacenters.remove(dc);
+            int hasta2=ciudades.size();
+            for(int j=0;j<hasta2&&encontre;j++){
+                if(ciudades.get(j).getMisCoord().equals(aux)){
+                    ciudades.remove(ciudades.get(j));
+                    encontre=false;
+                }
+            }
+            int hastaDc=datacenters.size();
+            boolean encontre2=true;
+            for(int h=0;h<hastaDc&&encontre2;h++){
+                if(datacenters.get(h).getMisCoord().equals(aux)){
+                    datacenters.remove(datacenters.get(h));
+                    encontre2=false;
+                }
             }
             mapa.eliminarPunto(aux);
             return new Retorno(Resultado.OK);
@@ -184,6 +192,7 @@ public class Sistema implements ISistema {
     @Override
     public Retorno listadoRedMinima() {
         // TODO Auto-generated method stub
+        //usar el prim() 
         return new Retorno(Resultado.NO_IMPLEMENTADA);
     }
 

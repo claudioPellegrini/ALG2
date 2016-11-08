@@ -43,7 +43,10 @@ public class ABBEmpresa {
 	}
 	
 	public String mostrar(){
-            return mostrarRec(raiz);
+            String rec = mostrarRec(raiz);
+            if(rec.isEmpty())
+                return "";
+            else    return rec.substring(0,rec.length()-2);
 	}
 
 	private String mostrarRec(NodoEmpresaABB nodo) {
