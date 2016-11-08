@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 
 
 public class Sistema implements ISistema {
-    public ABBEmpresa empresas;
-    public int cantPuntos;
-    public int contadorPuntos;
-    public GrafoPuntos mapa;
-    public ArrayList<Ciudad> ciudades;
-    public ArrayList<DC> datacenters;
+    private ABBEmpresa empresas;
+    private int cantPuntos;
+    private int contadorPuntos;
+    private GrafoPuntos mapa;
+    private ArrayList<Ciudad> ciudades;
+    private ArrayList<DC> datacenters;
     public enum TipoPunto {CIUDAD,DATACENTER};
     private Pattern pat = Pattern.compile("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$");
 
@@ -56,12 +56,12 @@ public class Sistema implements ISistema {
     @Override
     public Retorno registrarCiudad(String nombre, Double coordX, Double coordY) {
         if(contadorPuntos<cantPuntos){            
-            Punto unP = new Punto(coordX,coordY);
-            if(mapa.existePunto(unP)){
+            Ciudad unaC = new Ciudad(coordX,coordY,nombre);
+            if(mapa.existePunto(unaC)){
                 return new Retorno(Resultado.ERROR_2);
             }else{                
-                mapa.insertarPunto(unP,TipoPunto.CIUDAD);                
-                ciudades.add(new Ciudad(nombre,unP));
+                mapa.insertarPunto(unaC,TipoPunto.CIUDAD);                
+                ciudades.add(unaC);
                 contadorPuntos++;
                 return new Retorno(Resultado.OK);
             }            
@@ -75,16 +75,17 @@ public class Sistema implements ISistema {
                     String empresa, int capacidadCPUenHoras, int costoCPUporHora) {
         if(contadorPuntos<cantPuntos){     
             if(capacidadCPUenHoras<=0) return new Retorno(Resultado.ERROR_2);
-            Punto unP = new Punto(coordX,coordY);
-            if(mapa.existePunto(unP)){
+            NodoEmpresaABB emp = empresas.Buscar(empresas.getRaiz(), empresa);
+            DC unDC = new DC(coordX,coordY,nombre, emp, capacidadCPUenHoras, capacidadCPUenHoras);
+            if(mapa.existePunto(unDC)){
                 return new Retorno(Resultado.ERROR_3);
             }else{                
-                mapa.insertarPunto(unP,TipoPunto.DATACENTER);                   
-                NodoEmpresaABB emp = empresas.Buscar(empresas.getRaiz(), empresa);
+                mapa.insertarPunto(unDC,TipoPunto.DATACENTER);                   
+                
                 if(emp==null){
                     return new Retorno(Resultado.ERROR_4);
                 }else{
-                    datacenters.add(new DC(nombre, emp, capacidadCPUenHoras, capacidadCPUenHoras, unP));
+                    datacenters.add(unDC);
                     contadorPuntos++;
                     return new Retorno(Resultado.OK);
                 }                
@@ -128,22 +129,33 @@ public class Sistema implements ISistema {
         // TODO Auto-generated method stub
         //A LA CIUDAD O AL DATACENTER HAY QUE ELIMINARLA TAMBIEN
         Punto aux =new Punto(coordX, coordY);
+        boolean encontre=true;
         if(!mapa.existePunto(aux)) 
             return new Retorno(Resultado.ERROR_1);
-        else{           
+        else{          
+            String coordPto=aux.getCoordX()+","+aux.getCoordY();
             int hasta=mapa.getVertices().length;
             for(int i =0; i<hasta;i++){
                 if(mapa.existeTramo(aux, mapa.getVertices()[i])){
                     mapa.eliminarTramo(aux, mapa.getVertices()[i]);
                 }           
-            }            
-            for(Ciudad c: ciudades){
-                if(c.getMisCoord().equals(aux))
-                    ciudades.remove(c);
             }
-            for(DC dc: datacenters){
-                if(dc.getMisCoord().equals(datacenters))
-                    datacenters.remove(dc);
+            int hastaC=ciudades.size();
+            for(int j=0;j<hastaC&&encontre;j++){
+                String c=ciudades.get(j).getMisCoord();                
+                if(c.equals(coordPto)){
+                    ciudades.remove(ciudades.get(j));
+                    encontre=false;
+                }
+            }
+            int hastaDc=datacenters.size();
+            boolean encontre2=true;
+            for(int h=0;h<hastaDc&&encontre2;h++){
+                String dc=datacenters.get(h).getMisCoord();
+                if(dc.equals(coordPto)){
+                    datacenters.remove(datacenters.get(h));
+                    encontre2=false;
+                }
             }
             mapa.eliminarPunto(aux);
             return new Retorno(Resultado.OK);
@@ -157,11 +169,11 @@ public class Sistema implements ISistema {
         int j=1;
         for(int i=0;i<ciudades.size();i++){
             j=i+1;
-            url+="&markers=color:yellow%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord().toString();   
+            url+="&markers=color:yellow%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord();   
         }
         for(int p=0;p<datacenters.size();p++){
             j++;
-            url+="&markers=color:"+datacenters.get(p).getEmpresa().getColor().toString()+"%7Clabel:"+j+"%7C"+datacenters.get(p).getMisCoord().toString();            
+            url+="&markers=color:"+datacenters.get(p).getEmpresa().getColor()+"%7Clabel:"+j+"%7C"+datacenters.get(p).getMisCoord();            
         }      
         url+="&sensor=false";        
         try {            
@@ -177,21 +189,22 @@ public class Sistema implements ISistema {
                     int esfuerzoCPUrequeridoEnHoras) {
             // TODO Auto-generated method stub
         if(!mapa.existePunto(new Punto(coordX,coordY)))return new Retorno(Resultado.ERROR_1);
+        
         return new Retorno(Resultado.NO_IMPLEMENTADA);
     }
 
     @Override
     public Retorno listadoRedMinima() {
         // TODO Auto-generated method stub
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        mapa.prim();
+        return new Retorno(Resultado.OK,mapa.getTramosMinimos(), mapa.getCostoMinimo());
     }
 
     @Override
     public Retorno listadoEmpresas() {
         // TODO Auto-generated method stub
         String ret=empresas.mostrar();
-        
-            return new Retorno(Resultado.OK, ret,0);
+        return new Retorno(Resultado.OK, ret,0);
     }
 
 

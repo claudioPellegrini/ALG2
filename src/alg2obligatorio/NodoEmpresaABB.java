@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package alg2obligatorio;
 
-/**
- *
- * @author Euge
- */
+
 public class NodoEmpresaABB {
     
     private String nombre;
@@ -18,7 +11,9 @@ public class NodoEmpresaABB {
     private String color;
     private NodoEmpresaABB izq;
     private NodoEmpresaABB der;
-
+    
+    
+// <editor-fold defaultstate="collapsed" desc="Constructor, Get y Set">
     public NodoEmpresaABB(String nombre, String email, String direccion, String pais, String color) {
         this.nombre = nombre;
         this.email = email;
@@ -82,10 +77,15 @@ public class NodoEmpresaABB {
     public void setDer(NodoEmpresaABB der) {
         this.der = der;
     }
+// </editor-fold>
 
+    
+// <editor-fold defaultstate="collapsed" desc="Métodos">
     @Override
     public String toString() {
         return nombre+";" +email;
-    }
+    }	
+// </editor-fold>
+    
 
 }

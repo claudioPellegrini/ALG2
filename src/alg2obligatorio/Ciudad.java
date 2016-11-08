@@ -1,24 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package alg2obligatorio;
 
 import java.util.Objects;
 
-/**
- *
- * @author Euge
- */
-public class Ciudad {
-    private Punto misCoord;
+
+public class Ciudad extends Punto{
     private String nombre;
     
-
-    public Ciudad(String nombre, Punto p) {
-        misCoord=p;
-        
+    
+// <editor-fold defaultstate="collapsed" desc="Constructor, Get y Set">
+    public Ciudad(Double coordX, Double coordY,String nombre) {
+        super(coordX,coordY);
+        //misCoord=p;        
         this.nombre = nombre;
     }
 
@@ -30,15 +23,19 @@ public class Ciudad {
         this.nombre = nombre;
     }
 
-    public Punto getMisCoord() {
-        return misCoord;
+    public String getMisCoord() {
+        return super.getCoordX()+","+super.getCoordY();//misCoord;
     }
 
-    public void setMisCoord(Punto misCoord) {
-        this.misCoord = misCoord;
-    }
+//    public void setMisCoord(Punto misCoord) {
+//        this.misCoord = misCoord;
+//    }
 
-    @Override
+// </editor-fold>
+    
+
+// <editor-fold defaultstate="collapsed" desc="Métodos">
+@Override
     public int hashCode() {
         int hash = 7;
         return hash;
@@ -53,7 +50,10 @@ public class Ciudad {
             return false;
         }
         return c.getMisCoord().equals(c.getMisCoord());
-    }
+    }	
+// </editor-fold>
+   
+    
 
     
     
