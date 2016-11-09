@@ -2,6 +2,7 @@
 package alg2obligatorio;
 
 import alg2obligatorio.Sistema.TipoPunto;
+import jdk.internal.org.objectweb.asm.Opcodes;
 
 
 
@@ -71,6 +72,8 @@ public class GrafoPuntos {
             }
     }
     
+    //PRE: Grafo conexo
+    //POST: String de red minima
     public String prim(){
         costoMinimo=0;
         boolean[] visitado = new boolean[tope];
@@ -104,7 +107,7 @@ public class GrafoPuntos {
             }
             aux[imin][jmin]=aux[jmin][imin]=new ArcoPunto(min);
             //creamos un string 
-            ret=ret+obtenerOrigen(vertices[imin])+";"+obtenerOrigen(vertices[jmin])+"|";
+            ret+=obtenerOrigen(vertices[imin])+";"+obtenerOrigen(vertices[jmin])+"|";
             if(min!=Integer.MAX_VALUE)  costoMinimo+=min;
             visitado[jmin]=true;
             //agrego arista bidireccional a partir del valor minimo y las coordenadas
@@ -117,12 +120,13 @@ public class GrafoPuntos {
         return ret;
     }    
     
-    @SuppressWarnings("empty-statement")
-    public int dijkstra (Punto origen, Punto destino){
+    public String dijkstra (Punto origen,int esfuerzo){
         //defino los vectores
         int[] distancia = new int[tope];
         boolean[] visitados = new boolean[tope];//queda por defecto en false
-        int[] anteriores = new int[tope];		
+        int[] anteriores = new int[tope];
+        DC ptoOrigen=(DC)origen;
+        int[] ctosProcesamiento=new int[tope];
         //Inicializo vectores
         //seteo al vector de anterior con -1 
         //seteo a visitados con false a todos
@@ -139,8 +143,11 @@ public class GrafoPuntos {
         visitados[posOrigen]=true;
         for (int i =0;i<tope;i++){
             if(matAdy[posOrigen][i].isExiste()){
+                if(ptoOrigen instanceof DC){
+                    ctosProcesamiento[i]=ptoOrigen.costoProceso()*ptoOrigen.getCapacidadCPUenHoras();
+                }
                 distancia[i]= matAdy[posOrigen][i].getPeso();
-                anteriores[i]=posOrigen;
+                anteriores[i]=posOrigen;                
             }
         }
         //Encontrar no visitado con la menor distancia posible :candidato que es a quien voy a evaluar
@@ -163,11 +170,25 @@ public class GrafoPuntos {
                     if(matAdy[candidato][i].getPeso()+distancia[candidato]<distancia[i])
                         //actualizo distancia>anterior
                         distancia[i]=matAdy[candidato][i].getPeso()+distancia[candidato];
+                        //esta distancia[i] ser[ia la q tenemos q ir guardando para comparar con la menor?
                         anteriores[i]=candidato;
                 }
             }
-        }       
-        return distancia[obtenerNomInt(destino)];
+        }
+        //distancia[] tiene las menor distancia desde el origen a todos, selecciono la menor
+        int menor=Integer.MAX_VALUE;
+        DC ret=null;
+        for(int i=0;i<distancia.length;i++){
+            if(vertices[i] instanceof DC){
+                DC aux =(DC) vertices[i];
+                if(!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>esfuerzo&&distancia[i]+ctosProcesamiento[i]<menor){
+                    menor=distancia[i]+ctosProcesamiento[i];
+                    ret=aux;
+                }
+            }
+        }
+        String retorno =ret.getNombre()+","+menor;
+        return retorno;
     }
    
     
@@ -208,7 +229,15 @@ public class GrafoPuntos {
         return false;
     }
 
-
+    public Punto buscarPunto(Punto punto){
+        for(Punto p:vertices){
+            if(p!=null && p.equals(punto)){
+                return p;
+            }
+        }
+        
+        return null;
+    }
     //Pre: unP existe
     public void insertarPunto(Punto unP,TipoPunto t) {
         if(cantV<=tope){

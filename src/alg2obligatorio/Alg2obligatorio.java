@@ -77,11 +77,7 @@ public class Alg2obligatorio {
 //            System.out.println(s.registrarDC("ORT", -34.66, -56.17, "Mateu", 500, 100));
 //            System.out.println(s.registrarTramo(-34.66, -56.17,-44.51, -66.37,200));
             System.out.println(s.mapaEstado());
-//            
-////            String url = new String();
-////            url = "//maps.googleapis.com/maps/api/staticmap?center=Montevideo,Uruguay&zoom=13&size=1200x600&maptype=roadmap&markers=color:blue%7Clabel:1%7C-34.90,-56.16&markers=color:red%7Clabel:2%7C-34.91,-56.17&markers=color:green%7Clabel:3%7C-34.905,-56.19&sensor=false";
-////            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " +"http://"+url);            
-//       
+//                
 //        
             System.out.println(s.listadoEmpresas());
             
@@ -89,6 +85,7 @@ public class Alg2obligatorio {
             
             
             System.out.println(s.listadoRedMinima());
+            System.out.println(s.procesarInformacion(-34.900, -56.161, 400));
     }
     
 }

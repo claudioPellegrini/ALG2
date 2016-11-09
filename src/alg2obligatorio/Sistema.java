@@ -36,7 +36,13 @@ public class Sistema implements ISistema {
     @Override
     public Retorno destruirSistema() {
         // TODO Auto-generated method stub
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        this.cantPuntos=0;
+        contadorPuntos=0;
+        empresas=null;
+        mapa=null;
+        ciudades=null;
+        datacenters=null;
+        return new Retorno(Resultado.OK);
     }
 
     @Override
@@ -179,12 +185,25 @@ public class Sistema implements ISistema {
         return new Retorno(Resultado.OK);
     }
 
+    public GrafoPuntos getMapa() {
+        return mapa;
+    }
+
+    //PRE: recibe un datacenter
     @Override
     public Retorno procesarInformacion(Double coordX, Double coordY,
                     int esfuerzoCPUrequeridoEnHoras) {
             // TODO Auto-generated method stub
         if(!mapa.existePunto(new Punto(coordX,coordY)))return new Retorno(Resultado.ERROR_1);        
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        
+        DC miDC = (DC)mapa.buscarPunto(new Punto(coordX,coordY));
+        String ret =mapa.dijkstra(miDC,esfuerzoCPUrequeridoEnHoras);
+        if(ret=="") return new Retorno(Resultado.ERROR_2);
+        String[] retorno =ret.split(",");
+        String nombre = retorno[0];
+        int cto = Integer.parseInt(retorno[1]);
+        return new Retorno(Resultado.OK, nombre, cto);
+        
     }
 
     @Override
