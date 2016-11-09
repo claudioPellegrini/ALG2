@@ -7,7 +7,6 @@ import alg2obligatorio.Sistema.TipoPunto;
 
 public class GrafoPuntos {
     private ArcoPunto [][] matAdy;
-    private String tramosMinimos="";
     private int costoMinimo;
     private Punto [] vertices; 
     private int cantV;
@@ -20,10 +19,6 @@ public class GrafoPuntos {
 
         this.tope = tope;
         this.cantV=0;
-    }
-
-    public String getTramosMinimos() {
-        return tramosMinimos.substring(0, tramosMinimos.length()-1);
     }
 
     public int getCostoMinimo() {
@@ -76,54 +71,53 @@ public class GrafoPuntos {
             }
     }
     
-    public void prim(){
-            costoMinimo=0;
-            boolean[] visitado = new boolean[tope];
-            visitado[0]=true;
-            //o lo hacemos con el visitado[(int)(Math.random()*7)] = true;
-            ArcoPunto[][] aux = new ArcoPunto[tope][tope];
-            for (int i = 0; i < aux.length; i++) 
-                    for(int j=0;j<aux.length;j++)
-                            aux[i][j] = new ArcoPunto();
-            //Proceso
-            String ret="";
-            //Inicializar valor minimo (MAX_VALUE), y coordinadas de arista candidata
-            for (int k = 0; k < cantV-1; k++) {//for que solo sirve de contador
-                int min=Integer.MAX_VALUE; int imin = 0; int jmin=1;
-                for (int i = 0; i < tope; i++) {
-                    if(vertices[i]!=null && visitado[i]){
-                        for(int j=0;j<tope;j++){
-                            if(vertices[j]!=null && !visitado[j]){
-                            //si es candidato une visitado con no visitado
-                            // si es mejor que mi anterior candidato lo sustituyo por mi mejor candidato
-                                if(matAdy[i][j].isExiste()){
-                                    if(matAdy[i][j].getPeso()<min){
-                                        min=matAdy[i][j].getPeso();
-                                        imin=i;
-                                        jmin=j;
-                                    }
-
+    public String prim(){
+        costoMinimo=0;
+        boolean[] visitado = new boolean[tope];
+        visitado[0]=true;
+        //o lo hacemos con el visitado[(int)(Math.random()*7)] = true;
+        ArcoPunto[][] aux = new ArcoPunto[tope][tope];
+        for (int i = 0; i < aux.length; i++) 
+                for(int j=0;j<aux.length;j++)
+                        aux[i][j] = new ArcoPunto();
+        //Proceso
+        String ret="";
+        //Inicializar valor minimo (MAX_VALUE), y coordinadas de arista candidata
+        for (int k = 0; k < cantV-1; k++) {//for que solo sirve de contador
+            int min=Integer.MAX_VALUE; int imin = 0; int jmin=1;
+            for (int i = 0; i < tope; i++) {
+                if(vertices[i]!=null && visitado[i]){
+                    for(int j=0;j<tope;j++){
+                        if(vertices[j]!=null && !visitado[j]){
+                        //si es candidato une visitado con no visitado
+                        // si es mejor que mi anterior candidato lo sustituyo por mi mejor candidato
+                            if(matAdy[i][j].isExiste()){
+                                if(matAdy[i][j].getPeso()<min){
+                                    min=matAdy[i][j].getPeso();
+                                    imin=i;
+                                    jmin=j;
                                 }
                             }
                         }
-                        }
-
                     }
-                    aux[imin][jmin]=aux[jmin][imin]=new ArcoPunto(min);
-                    //creamos un string 
-                    ret=ret+obtenerOrigen(vertices[imin])+";"+obtenerOrigen(vertices[jmin])+"|";
-                    if(min!=Integer.MAX_VALUE)  costoMinimo=costoMinimo+min;
-                    visitado[jmin]=true;
-                    //agrego arista bidireccional a partir del valor minimo y las coordenadas
-                    //aux[imin][jmin]=aux[jmin][imin] = new Arco(min);
-                    //luego pongo como visitado a j
-                    //reseteo al valor minimo (MAX_VALUE)
+                }
             }
-            //para obligatorio comento linea siguiente
-            //matAdy = aux;
-            tramosMinimos=ret;
-	}    
+            aux[imin][jmin]=aux[jmin][imin]=new ArcoPunto(min);
+            //creamos un string 
+            ret=ret+obtenerOrigen(vertices[imin])+";"+obtenerOrigen(vertices[jmin])+"|";
+            if(min!=Integer.MAX_VALUE)  costoMinimo+=min;
+            visitado[jmin]=true;
+            //agrego arista bidireccional a partir del valor minimo y las coordenadas
+            //aux[imin][jmin]=aux[jmin][imin] = new Arco(min);
+            //luego pongo como visitado a j
+            //reseteo al valor minimo (MAX_VALUE)
+        }
+        //para obligatorio comento linea siguiente
+        //matAdy = aux;
+        return ret;
+    }    
     
+    @SuppressWarnings("empty-statement")
     public int dijkstra (Punto origen, Punto destino){
         //defino los vectores
         int[] distancia = new int[tope];

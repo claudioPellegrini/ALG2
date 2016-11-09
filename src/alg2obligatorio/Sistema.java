@@ -77,11 +77,9 @@ public class Sistema implements ISistema {
             if(capacidadCPUenHoras<=0) return new Retorno(Resultado.ERROR_2);
             NodoEmpresaABB emp = empresas.Buscar(empresas.getRaiz(), empresa);
             DC unDC = new DC(coordX,coordY,nombre, emp, capacidadCPUenHoras, capacidadCPUenHoras);
-            if(mapa.existePunto(unDC)){
-                return new Retorno(Resultado.ERROR_3);
-            }else{                
-                mapa.insertarPunto(unDC,TipoPunto.DATACENTER);                   
-                
+            if(mapa.existePunto(unDC)) return new Retorno(Resultado.ERROR_3);
+            else{                
+                mapa.insertarPunto(unDC,TipoPunto.DATACENTER);                                  
                 if(emp==null){
                     return new Retorno(Resultado.ERROR_4);
                 }else{
@@ -101,9 +99,8 @@ public class Sistema implements ISistema {
         if(peso<=0) return new Retorno(Resultado.ERROR_1);
         Punto aux = new Punto(coordXi,coordYi);
         Punto aux2 = new Punto(coordXf,coordYf);        
-        if(!mapa.existePunto(aux)||!mapa.existePunto(aux2)){
+        if(!mapa.existePunto(aux)||!mapa.existePunto(aux2))
             return new Retorno(Resultado.ERROR_2);
-        }
         if(mapa.existeTramo(aux, aux2))
             return new Retorno(Resultado.ERROR_3);
         mapa.registrarTramo(aux, aux2, peso);
@@ -115,9 +112,8 @@ public class Sistema implements ISistema {
                     Double coordXf, Double coordYf) {
         Punto aux = new Punto(coordXi,coordYi);
         Punto aux2 = new Punto(coordXf,coordYf);        
-        if(!mapa.existePunto(aux)||!mapa.existePunto(aux2)){
+        if(!mapa.existePunto(aux)||!mapa.existePunto(aux2))
             return new Retorno(Resultado.ERROR_1);
-        }
         if(!mapa.existeTramo(aux, aux2))
             return new Retorno(Resultado.ERROR_2);
         mapa.eliminarTramo(aux, aux2);
@@ -136,9 +132,8 @@ public class Sistema implements ISistema {
             String coordPto=aux.getCoordX()+","+aux.getCoordY();
             int hasta=mapa.getVertices().length;
             for(int i =0; i<hasta;i++){
-                if(mapa.existeTramo(aux, mapa.getVertices()[i])){
+                if(mapa.existeTramo(aux, mapa.getVertices()[i]))
                     mapa.eliminarTramo(aux, mapa.getVertices()[i]);
-                }           
             }
             int hastaC=ciudades.size();
             for(int j=0;j<hastaC&&encontre;j++){
@@ -171,9 +166,9 @@ public class Sistema implements ISistema {
             j=i+1;
             url+="&markers=color:yellow%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord();   
         }
-        for(int p=0;p<datacenters.size();p++){
+        for (DC datacenter : datacenters) {
             j++;
-            url+="&markers=color:"+datacenters.get(p).getEmpresa().getColor()+"%7Clabel:"+j+"%7C"+datacenters.get(p).getMisCoord();            
+            url += "&markers=color:" + datacenter.getEmpresa().getColor() + "%7Clabel:" + j + "%7C" + datacenter.getMisCoord();
         }      
         url+="&sensor=false";        
         try {            
@@ -188,16 +183,17 @@ public class Sistema implements ISistema {
     public Retorno procesarInformacion(Double coordX, Double coordY,
                     int esfuerzoCPUrequeridoEnHoras) {
             // TODO Auto-generated method stub
-        if(!mapa.existePunto(new Punto(coordX,coordY)))return new Retorno(Resultado.ERROR_1);
-        
+        if(!mapa.existePunto(new Punto(coordX,coordY)))return new Retorno(Resultado.ERROR_1);        
         return new Retorno(Resultado.NO_IMPLEMENTADA);
     }
 
     @Override
     public Retorno listadoRedMinima() {
         // TODO Auto-generated method stub
-        mapa.prim();
-        return new Retorno(Resultado.OK,mapa.getTramosMinimos(), mapa.getCostoMinimo());
+        String ret = mapa.prim();
+        if(!ret.isEmpty())
+            ret= ret.substring(0,ret.length()-1);
+        return new Retorno(Resultado.OK,ret, mapa.getCostoMinimo());
     }
 
     @Override

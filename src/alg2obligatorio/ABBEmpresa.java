@@ -48,11 +48,10 @@ public class ABBEmpresa {
         String rec = mostrarRec(raiz);
         if(rec.isEmpty())
             return "";
-        else    return rec.substring(0,rec.length()-2);
+        else    return rec.substring(0,rec.length()-1);
     }
 
     private String mostrarRec(NodoEmpresaABB nodo) {
-
         String ret=new String();
         if(nodo != null)
         {
