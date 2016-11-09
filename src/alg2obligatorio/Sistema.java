@@ -56,12 +56,12 @@ public class Sistema implements ISistema {
     @Override
     public Retorno registrarCiudad(String nombre, Double coordX, Double coordY) {
         if(contadorPuntos<cantPuntos){            
-            Punto unP = new Punto(coordX,coordY);
-            if(mapa.existePunto(unP)){
+            Ciudad unaC = new Ciudad(coordX,coordY,nombre);
+            if(mapa.existePunto(unaC)){
                 return new Retorno(Resultado.ERROR_2);
             }else{                
-                mapa.insertarPunto(unP,TipoPunto.CIUDAD);                
-                ciudades.add(new Ciudad(nombre,unP));
+                mapa.insertarPunto(unaC,TipoPunto.CIUDAD);                
+                ciudades.add(unaC);
                 contadorPuntos++;
                 return new Retorno(Resultado.OK);
             }            
@@ -75,16 +75,17 @@ public class Sistema implements ISistema {
                     String empresa, int capacidadCPUenHoras, int costoCPUporHora) {
         if(contadorPuntos<cantPuntos){     
             if(capacidadCPUenHoras<=0) return new Retorno(Resultado.ERROR_2);
-            Punto unP = new Punto(coordX,coordY);
-            if(mapa.existePunto(unP)){
+            NodoEmpresaABB emp = empresas.Buscar(empresas.getRaiz(), empresa);
+            DC unDC = new DC(coordX,coordY,nombre, emp, capacidadCPUenHoras, capacidadCPUenHoras);
+            if(mapa.existePunto(unDC)){
                 return new Retorno(Resultado.ERROR_3);
             }else{                
-                mapa.insertarPunto(unP,TipoPunto.DATACENTER);                   
-                NodoEmpresaABB emp = empresas.Buscar(empresas.getRaiz(), empresa);
+                mapa.insertarPunto(unDC,TipoPunto.DATACENTER);                   
+                
                 if(emp==null){
                     return new Retorno(Resultado.ERROR_4);
                 }else{
-                    datacenters.add(new DC(nombre, emp, capacidadCPUenHoras, capacidadCPUenHoras, unP));
+                    datacenters.add(unDC);
                     contadorPuntos++;
                     return new Retorno(Resultado.OK);
                 }                
@@ -131,16 +132,18 @@ public class Sistema implements ISistema {
         boolean encontre=true;
         if(!mapa.existePunto(aux)) 
             return new Retorno(Resultado.ERROR_1);
-        else{           
+        else{          
+            String coordPto=aux.getCoordX()+","+aux.getCoordY();
             int hasta=mapa.getVertices().length;
             for(int i =0; i<hasta;i++){
                 if(mapa.existeTramo(aux, mapa.getVertices()[i])){
                     mapa.eliminarTramo(aux, mapa.getVertices()[i]);
                 }           
             }
-            int hasta2=ciudades.size();
-            for(int j=0;j<hasta2&&encontre;j++){
-                if(ciudades.get(j).getMisCoord().equals(aux)){
+            int hastaC=ciudades.size();
+            for(int j=0;j<hastaC&&encontre;j++){
+                String c=ciudades.get(j).getMisCoord();                
+                if(c.equals(coordPto)){
                     ciudades.remove(ciudades.get(j));
                     encontre=false;
                 }
@@ -148,7 +151,8 @@ public class Sistema implements ISistema {
             int hastaDc=datacenters.size();
             boolean encontre2=true;
             for(int h=0;h<hastaDc&&encontre2;h++){
-                if(datacenters.get(h).getMisCoord().equals(aux)){
+                String dc=datacenters.get(h).getMisCoord();
+                if(dc.equals(coordPto)){
                     datacenters.remove(datacenters.get(h));
                     encontre2=false;
                 }
@@ -165,11 +169,11 @@ public class Sistema implements ISistema {
         int j=1;
         for(int i=0;i<ciudades.size();i++){
             j=i+1;
-            url+="&markers=color:yellow%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord().toString();   
+            url+="&markers=color:yellow%7Clabel:"+j+"%7C"+ciudades.get(i).getMisCoord();   
         }
         for(int p=0;p<datacenters.size();p++){
             j++;
-            url+="&markers=color:"+datacenters.get(p).getEmpresa().getColor().toString()+"%7Clabel:"+j+"%7C"+datacenters.get(p).getMisCoord().toString();            
+            url+="&markers=color:"+datacenters.get(p).getEmpresa().getColor()+"%7Clabel:"+j+"%7C"+datacenters.get(p).getMisCoord();            
         }      
         url+="&sensor=false";        
         try {            
@@ -192,8 +196,8 @@ public class Sistema implements ISistema {
     @Override
     public Retorno listadoRedMinima() {
         // TODO Auto-generated method stub
-        //usar el prim() 
-        return new Retorno(Resultado.NO_IMPLEMENTADA);
+        mapa.prim();
+        return new Retorno(Resultado.OK,mapa.getTramosMinimos(), mapa.getCostoMinimo());
     }
 
     @Override

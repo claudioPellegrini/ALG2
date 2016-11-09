@@ -1,23 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package alg2obligatorio;
 
 import alg2obligatorio.Sistema.TipoPunto;
 import java.util.Objects;
 
-/**
- *
- * @author Euge
- */
-public class Punto {
-    
+
+public class Punto {    
     private Double coordX;
     private Double coordY;
     private TipoPunto tipo;
     
+    
+// <editor-fold defaultstate="collapsed" desc="Constructor, Get y Set">
     public Punto(Double coordX, Double coordY) {
         this.coordX = coordX;
         this.coordY = coordY;
@@ -46,15 +40,13 @@ public class Punto {
     public void setTipo(TipoPunto tipo) {
         this.tipo = tipo;
     }
-
+// </editor-fold>
     
-
+    
+// <editor-fold defaultstate="collapsed" desc="Métodos">
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
             return false;
         }
         final Punto other = (Punto) obj;
@@ -64,11 +56,11 @@ public class Punto {
        
         return true;
     }
-
-    @Override
-    public String toString() {
-        return coordX + "," + coordY;
-    }
+// </editor-fold>
     
+
+    
+
+
     
 }
