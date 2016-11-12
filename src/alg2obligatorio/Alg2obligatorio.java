@@ -85,7 +85,7 @@ public class Alg2obligatorio {
             
             
             System.out.println(s.listadoRedMinima());
-            System.out.println(s.procesarInformacion(-34.900, -56.161, 600));
+            System.out.println(s.procesarInformacion(-34.902, -56.19, 500));
     }
     
 }

@@ -200,8 +200,9 @@ public class Sistema implements ISistema {
         String ret="";
         if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()<esfuerzoCPUrequeridoEnHoras)
             ret +=mapa.dijkstra(miDC,esfuerzoCPUrequeridoEnHoras);
-        ret+=miDC.getNombre().toString()+","+miDC.costoProceso();
-        if(ret=="") return new Retorno(Resultado.ERROR_2);
+        if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()>esfuerzoCPUrequeridoEnHoras)
+            ret+=miDC.getNombre().toString()+","+miDC.costoProceso();
+        if(ret.equals("")) return new Retorno(Resultado.ERROR_2);
         String[] retorno =ret.split(",");
         String nombre = retorno[0];
         int cto = Integer.parseInt(retorno[1]);

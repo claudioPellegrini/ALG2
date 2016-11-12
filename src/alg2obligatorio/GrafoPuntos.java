@@ -125,7 +125,10 @@ public class GrafoPuntos {
         int[] distancia = new int[tope];
         boolean[] visitados = new boolean[tope];//queda por defecto en false
         int[] anteriores = new int[tope];
-        DC ptoOrigen=(DC)origen;
+        DC ptoOrigen=null;
+        DC ptoDestino=null;
+        if(origen instanceof DC)
+            ptoOrigen=(DC)origen;
         int[] ctosProcesamiento=new int[tope];
         //Inicializo vectores
         //seteo al vector de anterior con -1 
@@ -143,9 +146,11 @@ public class GrafoPuntos {
         visitados[posOrigen]=true;
         for (int i =0;i<tope;i++){
             if(matAdy[posOrigen][i].isExiste()){
-//                if(ptoOrigen instanceof DC){
-//                    ctosProcesamiento[i]=ptoOrigen.costoProceso();
-//                }
+                if(vertices[i] instanceof DC)
+                    ptoDestino=(DC) vertices[i];
+                if(ptoOrigen instanceof DC && ptoDestino!=null&&!ptoOrigen.getEmpresa().equals(ptoDestino.getEmpresa())){
+                    ctosProcesamiento[i]=ptoOrigen.costoProceso();
+                }
                 distancia[i]= matAdy[posOrigen][i].getPeso();
                 anteriores[i]=posOrigen;                
             }
@@ -184,14 +189,16 @@ public class GrafoPuntos {
         for(int i=0;i<distancia.length;i++){
             if(vertices[i] instanceof DC){
                 DC aux =(DC) vertices[i];
-                if(!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>esfuerzo&&distancia[i]+ctosProcesamiento[i]<menor){
+                if(!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+ctosProcesamiento[i]<menor){
                     menor=distancia[i]+ctosProcesamiento[i];
                     ret=aux;
                 }
             }
         }
-        if(ret!=null)
+        if(ret!=null){
              retorno=ret.getNombre()+","+menor;
+             ret.setOcupado(true);
+        }
         return retorno;
     }
    
