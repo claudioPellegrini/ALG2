@@ -197,7 +197,10 @@ public class Sistema implements ISistema {
         if(!mapa.existePunto(new Punto(coordX,coordY)))return new Retorno(Resultado.ERROR_1);        
         
         DC miDC = (DC)mapa.buscarPunto(new Punto(coordX,coordY));
-        String ret =mapa.dijkstra(miDC,esfuerzoCPUrequeridoEnHoras);
+        String ret="";
+        if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()<esfuerzoCPUrequeridoEnHoras)
+            ret +=mapa.dijkstra(miDC,esfuerzoCPUrequeridoEnHoras);
+        ret+=miDC.getNombre().toString()+","+miDC.costoProceso();
         if(ret=="") return new Retorno(Resultado.ERROR_2);
         String[] retorno =ret.split(",");
         String nombre = retorno[0];

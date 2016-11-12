@@ -143,9 +143,9 @@ public class GrafoPuntos {
         visitados[posOrigen]=true;
         for (int i =0;i<tope;i++){
             if(matAdy[posOrigen][i].isExiste()){
-                if(ptoOrigen instanceof DC){
-                    ctosProcesamiento[i]=ptoOrigen.costoProceso()*ptoOrigen.getCapacidadCPUenHoras();
-                }
+//                if(ptoOrigen instanceof DC){
+//                    ctosProcesamiento[i]=ptoOrigen.costoProceso();
+//                }
                 distancia[i]= matAdy[posOrigen][i].getPeso();
                 anteriores[i]=posOrigen;                
             }
@@ -163,21 +163,24 @@ public class GrafoPuntos {
                     }
                 }
             }
-            visitados[candidato]=true;
-            for (int i =0;i<tope;i++){
-                if(matAdy[candidato][i].isExiste()&&visitados[i]==false){
-                    //(candidato,adyacente)+(origen,candidato)<(origen,adyacente)
-                    if(matAdy[candidato][i].getPeso()+distancia[candidato]<distancia[i])
-                        //actualizo distancia>anterior
-                        distancia[i]=matAdy[candidato][i].getPeso()+distancia[candidato];
-                        //esta distancia[i] ser[ia la q tenemos q ir guardando para comparar con la menor?
-                        anteriores[i]=candidato;
+            if(candidato!=-1){
+                visitados[candidato]=true;
+                for (int i =0;i<tope;i++){
+                    if(matAdy[candidato][i].isExiste()&&visitados[i]==false){
+                        //(candidato,adyacente)+(origen,candidato)<(origen,adyacente)
+                        if(matAdy[candidato][i].getPeso()+distancia[candidato]<distancia[i])
+                            //actualizo distancia>anterior
+                            distancia[i]=matAdy[candidato][i].getPeso()+distancia[candidato];
+                            //esta distancia[i] ser[ia la q tenemos q ir guardando para comparar con la menor?
+                            anteriores[i]=candidato;
+                    }
                 }
             }
         }
         //distancia[] tiene las menor distancia desde el origen a todos, selecciono la menor
         int menor=Integer.MAX_VALUE;
         DC ret=null;
+        String retorno="";
         for(int i=0;i<distancia.length;i++){
             if(vertices[i] instanceof DC){
                 DC aux =(DC) vertices[i];
@@ -187,7 +190,8 @@ public class GrafoPuntos {
                 }
             }
         }
-        String retorno =ret.getNombre()+","+menor;
+        if(ret!=null)
+             retorno=ret.getNombre()+","+menor;
         return retorno;
     }
    
