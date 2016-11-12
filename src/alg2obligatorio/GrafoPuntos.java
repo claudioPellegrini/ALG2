@@ -126,10 +126,10 @@ public class GrafoPuntos {
         boolean[] visitados = new boolean[tope];//queda por defecto en false
         int[] anteriores = new int[tope];
         DC ptoOrigen=null;
-        DC ptoDestino=null;
+//        DC ptoDestino=null;
         if(origen instanceof DC)
             ptoOrigen=(DC)origen;
-        int[] ctosProcesamiento=new int[tope];
+//        int[] ctosProcesamiento=new int[tope];
         //Inicializo vectores
         //seteo al vector de anterior con -1 
         //seteo a visitados con false a todos
@@ -146,11 +146,11 @@ public class GrafoPuntos {
         visitados[posOrigen]=true;
         for (int i =0;i<tope;i++){
             if(matAdy[posOrigen][i].isExiste()){
-                if(vertices[i] instanceof DC)
-                    ptoDestino=(DC) vertices[i];
-                if(ptoOrigen instanceof DC && ptoDestino!=null&&!ptoOrigen.getEmpresa().equals(ptoDestino.getEmpresa())){
-                    ctosProcesamiento[i]=ptoOrigen.costoProceso();
-                }
+//                if(vertices[i] instanceof DC)
+//                    ptoDestino=(DC) vertices[i];
+//                if(ptoOrigen instanceof DC && ptoDestino!=null&&!ptoOrigen.getEmpresa().equals(ptoDestino.getEmpresa())){
+//                    ctosProcesamiento[i]=ptoOrigen.costoProceso();
+//                }
                 distancia[i]= matAdy[posOrigen][i].getPeso();
                 anteriores[i]=posOrigen;                
             }
@@ -189,9 +189,11 @@ public class GrafoPuntos {
         for(int i=0;i<distancia.length;i++){
             if(vertices[i] instanceof DC){
                 DC aux =(DC) vertices[i];
-                if(!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+ctosProcesamiento[i]<menor){
-                    menor=distancia[i]+ctosProcesamiento[i];
-                    ret=aux;
+                if(!aux.getMisCoord().equals(ptoOrigen.getMisCoord())&&!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+aux.costoProceso()<menor){
+                    if(!aux.getEmpresa().equals(ptoOrigen.getEmpresa())){
+                        menor=distancia[i]+aux.costoProceso();
+                        ret=aux;
+                    }
                 }
             }
         }
@@ -240,9 +242,9 @@ public class GrafoPuntos {
         return false;
     }
 
-    public Punto buscarPunto(Punto punto){
+    public Punto buscarPunto(Double coordX,Double coordY){
         for(Punto p:vertices){
-            if(p!=null && p.equals(punto)){
+            if(p!=null && p.getCoordX().equals(coordX)&&p.getCoordY().equals(coordY)){
                 return p;
             }
         }

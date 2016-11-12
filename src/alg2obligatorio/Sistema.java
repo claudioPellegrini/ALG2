@@ -103,9 +103,9 @@ public class Sistema implements ISistema {
     public Retorno registrarTramo(Double coordXi, Double coordYi,
                     Double coordXf, Double coordYf, int peso) {
         if(peso<=0) return new Retorno(Resultado.ERROR_1);
-        Punto aux = new Punto(coordXi,coordYi);
-        Punto aux2 = new Punto(coordXf,coordYf);        
-        if(!mapa.existePunto(aux)||!mapa.existePunto(aux2))
+        Punto aux = mapa.buscarPunto(coordXi,coordYi);
+        Punto aux2 = mapa.buscarPunto(coordXf,coordYf);        
+        if(aux==null||aux2==null)
             return new Retorno(Resultado.ERROR_2);
         if(mapa.existeTramo(aux, aux2))
             return new Retorno(Resultado.ERROR_3);
@@ -116,9 +116,9 @@ public class Sistema implements ISistema {
     @Override
     public Retorno eliminarTramo(Double coordXi, Double coordYi,
                     Double coordXf, Double coordYf) {
-        Punto aux = new Punto(coordXi,coordYi);
-        Punto aux2 = new Punto(coordXf,coordYf);        
-        if(!mapa.existePunto(aux)||!mapa.existePunto(aux2))
+        Punto aux = mapa.buscarPunto(coordXi,coordYi);
+        Punto aux2 = mapa.buscarPunto(coordXf,coordYf);        
+        if(aux==null||aux2==null)
             return new Retorno(Resultado.ERROR_1);
         if(!mapa.existeTramo(aux, aux2))
             return new Retorno(Resultado.ERROR_2);
@@ -130,12 +130,12 @@ public class Sistema implements ISistema {
     public Retorno eliminarPunto(Double coordX, Double coordY) {
         // TODO Auto-generated method stub
         //A LA CIUDAD O AL DATACENTER HAY QUE ELIMINARLA TAMBIEN
-        Punto aux =new Punto(coordX, coordY);
+        Punto aux =mapa.buscarPunto(coordX, coordY);
         boolean encontre=true;
-        if(!mapa.existePunto(aux)) 
+        if(aux==null) 
             return new Retorno(Resultado.ERROR_1);
         else{          
-            String coordPto=aux.getCoordX()+","+aux.getCoordY();
+            String coordPto=coordX+","+coordY;
             int hasta=mapa.getVertices().length;
             for(int i =0; i<hasta;i++){
                 if(mapa.existeTramo(aux, mapa.getVertices()[i]))
@@ -194,9 +194,9 @@ public class Sistema implements ISistema {
     public Retorno procesarInformacion(Double coordX, Double coordY,
                     int esfuerzoCPUrequeridoEnHoras) {
             // TODO Auto-generated method stub
-        if(!mapa.existePunto(new Punto(coordX,coordY)))return new Retorno(Resultado.ERROR_1);        
+        if(mapa.buscarPunto(coordX,coordY)==null)return new Retorno(Resultado.ERROR_1);        
         
-        DC miDC = (DC)mapa.buscarPunto(new Punto(coordX,coordY));
+        DC miDC = (DC)mapa.buscarPunto(coordX,coordY);
         String ret="";
         if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()<esfuerzoCPUrequeridoEnHoras)
             ret +=mapa.dijkstra(miDC,esfuerzoCPUrequeridoEnHoras);

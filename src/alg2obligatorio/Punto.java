@@ -5,7 +5,7 @@ import alg2obligatorio.Sistema.TipoPunto;
 import java.util.Objects;
 
 
-public class Punto {    
+public abstract class Punto {    
     private Double coordX;
     private Double coordY;
     private TipoPunto tipo;
