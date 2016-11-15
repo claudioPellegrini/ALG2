@@ -166,7 +166,7 @@ public class Sistema implements ISistema {
     @Override
     public Retorno mapaEstado() {
         // TODO Auto-generated method stub
-        String url = "//maps.googleapis.com/maps/api/staticmap?center=Montevideo,Uruguay&zoom=13&size=1200x600&maptype=roadmap";
+        String url = "//maps.googleapis.com/maps/api/staticmap?size=1200x600&maptype=roadmap";
         int j=1;
         for(int i=0;i<ciudades.size();i++){
             j=i+1;
@@ -200,8 +200,10 @@ public class Sistema implements ISistema {
         String ret="";
         if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()<esfuerzoCPUrequeridoEnHoras)
             ret +=mapa.dijkstra(miDC,esfuerzoCPUrequeridoEnHoras);
-        if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()>esfuerzoCPUrequeridoEnHoras)
-            ret+=miDC.getNombre().toString()+","+miDC.costoProceso();
+        if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()>esfuerzoCPUrequeridoEnHoras){
+            ret+=miDC.getNombre()+","+esfuerzoCPUrequeridoEnHoras;
+            miDC.setOcupado(true);
+        }
         if(ret.equals("")) return new Retorno(Resultado.ERROR_2);
         String[] retorno =ret.split(",");
         String nombre = retorno[0];

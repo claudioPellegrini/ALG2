@@ -3,8 +3,6 @@ package alg2obligatorio;
 
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 
@@ -86,6 +84,8 @@ public class Alg2obligatorio {
             
             System.out.println(s.listadoRedMinima());
             System.out.println(s.procesarInformacion(-34.902, -56.19, 500));
+            System.out.println(s.procesarInformacion(-34.906, -56.15, 350));
+
     }
     
 }

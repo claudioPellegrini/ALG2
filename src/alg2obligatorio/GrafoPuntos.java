@@ -185,14 +185,18 @@ public class GrafoPuntos {
         int menor=Integer.MAX_VALUE;
         DC ret=null;
         String retorno="";
+        int ctoPr=1;
         for(int i=0;i<distancia.length;i++){
             if(vertices[i] instanceof DC){
                 DC aux =(DC) vertices[i];
-                if(!aux.getMisCoord().equals(ptoOrigen.getMisCoord())&&!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+aux.costoProceso()<menor){
+                if(!aux.getMisCoord().equals(ptoOrigen.getMisCoord())&&!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+esfuerzo*aux.getCostoCPUporHora()<menor){
                     if(!aux.getEmpresa().equals(ptoOrigen.getEmpresa())){
-                        menor=distancia[i]+aux.costoProceso();
-                        ret=aux;
+                        ctoPr=aux.getCostoCPUporHora();                    
                     }
+                    menor=distancia[i]+esfuerzo*ctoPr;
+                    ret=aux;
+//                    else
+//                        menor=distancia[i];
                 }
             }
         }
