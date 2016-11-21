@@ -80,9 +80,9 @@ public class DC extends Punto{
         }
         return dc.getMisCoord().equals(dc.getMisCoord());
     }
-    public int costoProceso(){
-        return this.capacidadCPUenHoras*this.costoCPUporHora;
-    }	
+//    public int costoProceso(){
+//        return this.capacidadCPUenHoras*this.costoCPUporHora;
+//    }	
 // </editor-fold>
     
     

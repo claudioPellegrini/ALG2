@@ -11,7 +11,9 @@ public class GrafoPuntos {
     private Punto [] vertices; 
     private int cantV;
     private int tope; // maxima cantidad de puntos que va a tener el grafo
+    private Hash elHash;
 
+    
 // <editor-fold defaultstate="collapsed" desc="Constructor, Get y Set">
     public GrafoPuntos(int tope) {
         crearMatriz(tope);
@@ -19,6 +21,8 @@ public class GrafoPuntos {
 
         this.tope = tope;
         this.cantV=0;
+        
+        this.elHash= new Hash(tope);
     }
 
     public int getCostoMinimo() {
@@ -55,6 +59,10 @@ public class GrafoPuntos {
     
     public void setMatAdy(ArcoPunto[][] matAdy) {
         this.matAdy = matAdy;
+    }
+    
+    public Hash getElHash() {
+        return elHash;
     }
 // </editor-fold>
     
@@ -185,34 +193,39 @@ public class GrafoPuntos {
         int menor=Integer.MAX_VALUE;
         DC ret=null;
         String retorno="";
+        int ctoPr=1;
         for(int i=0;i<distancia.length;i++){
             if(vertices[i] instanceof DC){
                 DC aux =(DC) vertices[i];
-                if(!aux.getMisCoord().equals(ptoOrigen.getMisCoord())&&!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+aux.costoProceso()<menor){
+                if(!aux.getMisCoord().equals(ptoOrigen.getMisCoord())&&!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+esfuerzo*aux.getCostoCPUporHora()<menor){
                     if(!aux.getEmpresa().equals(ptoOrigen.getEmpresa())){
-                        menor=distancia[i]+aux.costoProceso();
-                        ret=aux;
+                        ctoPr=aux.getCostoCPUporHora();                    
                     }
+                    menor=distancia[i]+esfuerzo*ctoPr;
+                    ret=aux;
+//                    else
+//                        menor=distancia[i];
                 }
             }
         }
         if(ret!=null){
              retorno=ret.getNombre()+","+menor;
-             ret.setOcupado(true);
+             //ret.setOcupado(true);//No va mas el ocupado
         }
         return retorno;
     }
    
     
     public int obtenerNomInt(Punto origen) {
-        // se cambia por HASH
-        for(int i=0;i<tope;i++){
-            if(vertices[i].equals(origen)){
-                return i;
-            }
-
-        }
-        return -1;
+        return elHash.nombreInterno(origen);
+         //se cambia por HASH
+//        for(int i=0;i<tope;i++){
+//            if(vertices[i].equals(origen)){
+//                return i;
+//            }
+//
+//        }
+//        return -1;
     }
 
     
@@ -254,6 +267,7 @@ public class GrafoPuntos {
     public void insertarPunto(Punto unP,TipoPunto t) {
         if(cantV<=tope){
             vertices[cantV]=unP;
+            elHash.agregar(unP, cantV);//**********************hash OJO!
             unP.setTipo(t);
             cantV++;
         }

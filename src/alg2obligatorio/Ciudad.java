@@ -1,7 +1,6 @@
 
 package alg2obligatorio;
 
-import java.util.Objects;
 
 
 public class Ciudad extends Punto{

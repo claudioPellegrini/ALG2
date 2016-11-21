@@ -18,6 +18,10 @@ public class Sistema implements ISistema {
     private ArrayList<DC> datacenters;
     public enum TipoPunto {CIUDAD,DATACENTER};
     private Pattern pat = Pattern.compile("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$");
+    
+    
+    
+    
 
     @Override
     public Retorno inicializarSistema(int cantPuntos) {
@@ -166,7 +170,7 @@ public class Sistema implements ISistema {
     @Override
     public Retorno mapaEstado() {
         // TODO Auto-generated method stub
-        String url = "//maps.googleapis.com/maps/api/staticmap?center=Montevideo,Uruguay&zoom=13&size=1200x600&maptype=roadmap";
+        String url = "//maps.googleapis.com/maps/api/staticmap?size=1200x600&maptype=roadmap";
         int j=1;
         for(int i=0;i<ciudades.size();i++){
             j=i+1;
@@ -198,16 +202,17 @@ public class Sistema implements ISistema {
         
         DC miDC = (DC)mapa.buscarPunto(coordX,coordY);
         String ret="";
-        if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()<esfuerzoCPUrequeridoEnHoras)
+        if(miDC.getCapacidadCPUenHoras()<esfuerzoCPUrequeridoEnHoras)
             ret +=mapa.dijkstra(miDC,esfuerzoCPUrequeridoEnHoras);
-        if(!miDC.isOcupado()&&miDC.getCapacidadCPUenHoras()>esfuerzoCPUrequeridoEnHoras){
-            ret+=miDC.getNombre().toString()+","+miDC.costoProceso();
-            miDC.setOcupado(true);
+        if(miDC.getCapacidadCPUenHoras()>=esfuerzoCPUrequeridoEnHoras){
+            miDC.setCapacidadCPUenHoras(miDC.getCapacidadCPUenHoras()-esfuerzoCPUrequeridoEnHoras);
+            ret+=miDC.getNombre()+","+esfuerzoCPUrequeridoEnHoras;
+            //miDC.setOcupado(true);//no va el ocupado, restar el esfuerzo a la capacidad
         }
         if(ret.equals("")) return new Retorno(Resultado.ERROR_2);
         String[] retorno =ret.split(",");
         String nombre = retorno[0];
-        int cto = Integer.parseInt(retorno[1]);
+        int cto = Integer.parseInt(retorno[1])-esfuerzoCPUrequeridoEnHoras;
         return new Retorno(Resultado.OK, nombre, cto);
         
     }

@@ -3,8 +3,6 @@ package alg2obligatorio;
 
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 
@@ -79,13 +77,32 @@ public class Alg2obligatorio {
             System.out.println(s.mapaEstado());
 //                
 //        
+            System.out.println("Empresas*************");
             System.out.println(s.listadoEmpresas());
             
             
-            
+            System.out.println("Red Mínima*************");
             
             System.out.println(s.listadoRedMinima());
-            System.out.println(s.procesarInformacion(-34.902, -56.19, 500));
+            
+            
+            System.out.println("Procesar Información*************");
+            
+            
+            System.out.println(s.procesarInformacion(-34.902, -56.19, 600));//Pellegrini superado y supera capacidad de todas
+            System.out.println(s.procesarInformacion(-34.902, -56.19, 500));//Pellegrini superado, ort puede
+            System.out.println(s.procesarInformacion(-34.902, -56.19, 500));//ort ocupada, nadie puede
+            
+            
+            System.out.println(s.procesarInformacion(-34.906, -56.15, 350));//Bouza superado, Pellegrini puede
+            System.out.println(s.procesarInformacion(-34.906, -56.15, 350));//Bouza superado, nadie mas puede
+            System.out.println(s.procesarInformacion(-34.908, -56.2, 300));//Bouza puede
+//            
+            System.out.println(s.procesarInformacion(-34.908, -56.2, 300));//Cremoba superado, ocupado Bouza
+            System.out.println(s.procesarInformacion(-34.908, -56.2, 200));//Cremona Puede
+            
+            
+            
     }
     
 }
