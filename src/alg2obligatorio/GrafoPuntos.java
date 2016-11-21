@@ -85,7 +85,6 @@ public class GrafoPuntos {
         costoMinimo=0;
         boolean[] visitado = new boolean[tope];
         visitado[0]=true;
-        //o lo hacemos con el visitado[(int)(Math.random()*7)] = true;
         ArcoPunto[][] aux = new ArcoPunto[tope][tope];
         for (int i = 0; i < aux.length; i++) 
                 for(int j=0;j<aux.length;j++)
@@ -99,8 +98,6 @@ public class GrafoPuntos {
                 if(vertices[i]!=null && visitado[i]){
                     for(int j=0;j<tope;j++){
                         if(vertices[j]!=null && !visitado[j]){
-                        //si es candidato une visitado con no visitado
-                        // si es mejor que mi anterior candidato lo sustituyo por mi mejor candidato
                             if(matAdy[i][j].isExiste()){
                                 if(matAdy[i][j].getPeso()<min){
                                     min=matAdy[i][j].getPeso();
@@ -117,54 +114,30 @@ public class GrafoPuntos {
             ret+=obtenerOrigen(vertices[imin])+";"+obtenerOrigen(vertices[jmin])+"|";
             if(min!=Integer.MAX_VALUE)  costoMinimo+=min;
             visitado[jmin]=true;
-            //agrego arista bidireccional a partir del valor minimo y las coordenadas
-            //aux[imin][jmin]=aux[jmin][imin] = new Arco(min);
-            //luego pongo como visitado a j
-            //reseteo al valor minimo (MAX_VALUE)
-        }
-        //para obligatorio comento linea siguiente
-        //matAdy = aux;
+        }        
         return ret;
     }    
     
     public String dijkstra (Punto origen,int esfuerzo){
-        //defino los vectores
         int[] distancia = new int[tope];
         boolean[] visitados = new boolean[tope];//queda por defecto en false
         int[] anteriores = new int[tope];
         DC ptoOrigen=null;
-//        DC ptoDestino=null;
         if(origen instanceof DC)
             ptoOrigen=(DC)origen;
-//        int[] ctosProcesamiento=new int[tope];
-        //Inicializo vectores
-        //seteo al vector de anterior con -1 
-        //seteo a visitados con false a todos
-        //seteo a Distancia con infinito
         for(int i=0;i<anteriores.length;i++){
             anteriores[i]=-1;
         }
-        //otra forma de asignar el -1 directamente en el for es asi:
-//		for(int i =0;i<anteriores.length;anteriores[i++]=-1);
         for(int i=0;i<distancia.length;distancia[i++]=Integer.MAX_VALUE);
-        //inicializaci�n -paso inicial
         int posOrigen = obtenerNomInt(origen);
         distancia[posOrigen]=0;
         visitados[posOrigen]=true;
         for (int i =0;i<tope;i++){
             if(matAdy[posOrigen][i].isExiste()){
-//                if(vertices[i] instanceof DC)
-//                    ptoDestino=(DC) vertices[i];
-//                if(ptoOrigen instanceof DC && ptoDestino!=null&&!ptoOrigen.getEmpresa().equals(ptoDestino.getEmpresa())){
-//                    ctosProcesamiento[i]=ptoOrigen.costoProceso();
-//                }
                 distancia[i]= matAdy[posOrigen][i].getPeso();
                 anteriores[i]=posOrigen;                
             }
         }
-        //Encontrar no visitado con la menor distancia posible :candidato que es a quien voy a evaluar
-        //como proximo paso
-        //los vuelvo a recorrer a todos pero ahora hay q tener en cuenta la distancia anterior
         for (int k =0;k<tope-2;k++){
             int candidato = -1, distCand = Integer.MAX_VALUE;
             for (int i =0;i<tope;i++){
@@ -179,17 +152,13 @@ public class GrafoPuntos {
                 visitados[candidato]=true;
                 for (int i =0;i<tope;i++){
                     if(matAdy[candidato][i].isExiste()&&visitados[i]==false){
-                        //(candidato,adyacente)+(origen,candidato)<(origen,adyacente)
                         if(matAdy[candidato][i].getPeso()+distancia[candidato]<distancia[i])
-                            //actualizo distancia>anterior
                             distancia[i]=matAdy[candidato][i].getPeso()+distancia[candidato];
-                            //esta distancia[i] ser[ia la q tenemos q ir guardando para comparar con la menor?
                             anteriores[i]=candidato;
                     }
                 }
             }
         }
-        //distancia[] tiene las menor distancia desde el origen a todos, selecciono la menor
         int menor=Integer.MAX_VALUE;
         DC ret=null;
         String retorno="";
@@ -197,20 +166,18 @@ public class GrafoPuntos {
         for(int i=0;i<distancia.length;i++){
             if(vertices[i] instanceof DC){
                 DC aux =(DC) vertices[i];
-                if(!aux.getMisCoord().equals(ptoOrigen.getMisCoord())&&!aux.isOcupado()&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+esfuerzo*aux.getCostoCPUporHora()<menor){
+                if(!aux.getMisCoord().equals(ptoOrigen.getMisCoord())&&aux.getCapacidadCPUenHoras()>=esfuerzo&&distancia[i]+esfuerzo*aux.getCostoCPUporHora()<menor){
                     if(!aux.getEmpresa().equals(ptoOrigen.getEmpresa())){
                         ctoPr=aux.getCostoCPUporHora();                    
                     }
                     menor=distancia[i]+esfuerzo*ctoPr;
                     ret=aux;
-//                    else
-//                        menor=distancia[i];
                 }
             }
         }
         if(ret!=null){
-             retorno=ret.getNombre()+","+menor;
-             //ret.setOcupado(true);//No va mas el ocupado
+            ret.setCapacidadCPUenHoras(ret.getCapacidadCPUenHoras()-esfuerzo);
+            retorno=ret.getNombre()+","+menor;
         }
         return retorno;
     }
@@ -218,14 +185,7 @@ public class GrafoPuntos {
     
     public int obtenerNomInt(Punto origen) {
         return elHash.nombreInterno(origen);
-         //se cambia por HASH
-//        for(int i=0;i<tope;i++){
-//            if(vertices[i].equals(origen)){
-//                return i;
-//            }
-//
-//        }
-//        return -1;
+        
     }
 
     
@@ -267,7 +227,7 @@ public class GrafoPuntos {
     public void insertarPunto(Punto unP,TipoPunto t) {
         if(cantV<=tope){
             vertices[cantV]=unP;
-            elHash.agregar(unP, cantV);//**********************hash OJO!
+            elHash.agregar(unP, cantV);
             unP.setTipo(t);
             cantV++;
         }

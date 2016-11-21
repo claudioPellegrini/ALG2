@@ -91,15 +91,17 @@ public class Alg2obligatorio {
             
             System.out.println(s.procesarInformacion(-34.902, -56.19, 600));//Pellegrini superado y supera capacidad de todas
             System.out.println(s.procesarInformacion(-34.902, -56.19, 500));//Pellegrini superado, ort puede
-            System.out.println(s.procesarInformacion(-34.902, -56.19, 500));//ort ocupada, nadie puede
-            
-            
-            System.out.println(s.procesarInformacion(-34.906, -56.15, 350));//Bouza superado, Pellegrini puede
-            System.out.println(s.procesarInformacion(-34.906, -56.15, 350));//Bouza superado, nadie mas puede
-            System.out.println(s.procesarInformacion(-34.908, -56.2, 300));//Bouza puede
+            System.out.println(s.procesarInformacion(-34.902, -56.19, 500));//ort ahora sin capacidad, nadie puede
 //            
-            System.out.println(s.procesarInformacion(-34.908, -56.2, 300));//Cremoba superado, ocupado Bouza
-            System.out.println(s.procesarInformacion(-34.908, -56.2, 200));//Cremona Puede
+//            
+            System.out.println(s.procesarInformacion(-34.906, -56.15, 350));//Bouza superado, Pellegrini puede
+            System.out.println(s.procesarInformacion(-34.902, -56.19, 50));//Pellegrini todavía puede
+            System.out.println(s.procesarInformacion(-34.906, -56.15, 350));//Bouza superado, nadie mas puede
+            System.out.println(s.procesarInformacion(-34.908, -56.2, 190));//Cremona puede
+            
+            System.out.println(s.procesarInformacion(-34.902, -56.19, 50));////Pellegrini superado, Bouza puede
+            System.out.println(s.procesarInformacion(-34.908, -56.2, 20));//Cremona superado, Bouza puede
+            System.out.println(s.procesarInformacion(-34.908, -56.2, 10));//Cremona Puede
             
             
             

@@ -212,7 +212,7 @@ public class Sistema implements ISistema {
         if(ret.equals("")) return new Retorno(Resultado.ERROR_2);
         String[] retorno =ret.split(",");
         String nombre = retorno[0];
-        int cto = Integer.parseInt(retorno[1])-esfuerzoCPUrequeridoEnHoras;
+        int cto = Integer.parseInt(retorno[1]);
         return new Retorno(Resultado.OK, nombre, cto);
         
     }

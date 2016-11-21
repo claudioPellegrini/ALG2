@@ -6,6 +6,9 @@ public class Hash {
 	private int tope;
 	private int tamanio;
 	private NodoLista[] vectorHash;
+        
+        
+// <editor-fold defaultstate="collapsed" desc="Constructor, Get y Set"> 
 
 	public Hash(int tope) {
 		this.tope = tope;
@@ -13,7 +16,16 @@ public class Hash {
 		this.tamanio = proxPrimo(tope);
 		this.vectorHash = new NodoLista[tamanio];
 	}
+        
+        
+        public NodoLista[] getVectorHash() {
+		return vectorHash;
+	}
 
+
+// </editor-fold>
+        
+// <editor-fold defaultstate="collapsed" desc="Métodos">
 	public void agregar(Punto p, int nomInt) {
 		int pos = Double.valueOf(darNombreInterno(p)).intValue();
 		NodoLista nuevo = new NodoLista(p, nomInt, vectorHash[pos]);
@@ -24,7 +36,6 @@ public class Hash {
 	public int nombreInterno(Punto p) {
 		int pos = Double.valueOf(darNombreInterno(p)).intValue();
 		NodoLista coli = vectorHash[pos];
-
 		int nombreInterno = -1;
 		while (coli != null) {
 			if (coli.getNombreExterno().equals(p)) {
@@ -67,26 +78,18 @@ public class Hash {
 	}
 
 	private int proxPrimo(int num) {
-		while (!esPrimo(++num))
-			;
+		while (!esPrimo(++num));
 		return num;
 	}
 
 	private double darNombreInterno(Punto p) {
-//            int valX = Double.valueOf(p.getCoordX()).intValue();
-//            int valY = Double.valueOf(p.getCoordY()).intValue();
-//            return (valX + valY) % tamanio;
             double tam=tamanio*1.0;
             double suma = p.getCoordX() + p.getCoordY();
             suma = (suma<0)?(suma*-1):suma*1;
-            
-                
-            
-            return suma % 10;
+            return suma % tam;
 	}
+        
+    // </editor-fold>
 
-	public NodoLista[] getVectorHash() {
-		return vectorHash;
-	}
-
+	
 }
