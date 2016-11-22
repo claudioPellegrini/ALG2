@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class JUnitTestObliga {
+public class TestDocente {
 
 	@Test
 	public void testInicializarDestruirSistema() {
