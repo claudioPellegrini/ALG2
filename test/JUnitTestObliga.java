@@ -126,6 +126,7 @@ public class JUnitTestObliga {
 		assertEquals(Retorno.Resultado.OK, 
 				s.registrarEmpresa("IBM", "1000 Town Center Dr., Suite 1930, Southfield, MI 48075", "USA", "hello@ibm.com", "BLACK").resultado);
 	}
+        
 
 	// TEST CIUDADES
 	@Test
